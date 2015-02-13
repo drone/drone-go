@@ -30,7 +30,7 @@ user, err := client.Users.GetCurrent()
 fmt.Println(user)
 ```
 
-Get the list repository:
+Get the repository list:
 
 ```Go
 repos, err := client.Repos.List()
