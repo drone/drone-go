@@ -2,7 +2,7 @@
 
 drone-go is a Go client library for accessing the Drone [API](http://readme.drone.io/api/overview/).
 
-[![Build Status](http://test.drone.io/api/badge/github.com/drone/drone-go/status.svg?branch=master)](http://test.drone.io/github.com/drone/drone-go)
+[![Build Status](http://test.drone.io/api/badge/github.com/drone/drone-go/status.svg?style=flat&branch=master)](http://test.drone.io/github.com/drone/drone-go)
 [![GoDoc](https://godoc.org/github.com/drone/drone-go/drone?status.svg)](https://godoc.org/github.com/drone/drone-go/drone)
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/drone/drone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
