@@ -51,3 +51,12 @@ type Commit struct {
 	Created     int64  `json:"created_at"`
 	Updated     int64  `json:"updated_at"`
 }
+
+// Returns the Short (--short) Commit Hash.
+func (c *Commit) ShaShort() string {
+	if len(c.Sha) > 8 {
+		return c.Sha[:8]
+	} else {
+		return c.Sha
+	}
+}
