@@ -33,9 +33,9 @@ func (s *CommitService) Rebuild(host, owner, name, branch, sha string) error {
 	return s.run("POST", path, nil, nil)
 }
 
-// GET /api/repos/{host}/{owner}/{name}/feed
+// GET /api/repos/{host}/{owner}/{name}/commits
 func (s *CommitService) List(host, owner, name string) ([]*Commit, error) {
-	var path = fmt.Sprintf("/api/repos/%s/%s/%s/feed", host, owner, name)
+	var path = fmt.Sprintf("/api/repos/%s/%s/%s/commits", host, owner, name)
 	var list []*Commit
 	var err = s.run("GET", path, nil, &list)
 	return list, err
