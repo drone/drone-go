@@ -60,14 +60,13 @@ func (c *Client) run(method, path string, in, out interface{}) error {
 	}
 
 	// create the request
-	req := &http.Request{
-		URL:           uri,
-		Method:        method,
-		ProtoMajor:    1,
-		ProtoMinor:    1,
-		Close:         true,
-		ContentLength: 0,
+	req, err := http.NewRequest(method, uri.String(), nil)
+	if err != nil {
+		return err
 	}
+	req.ProtoAtLeast(1, 1)
+	req.Close = true
+	req.ContentLength = 0
 
 	// if data input is provided, serialize to JSON
 	if in != nil {
@@ -135,14 +134,13 @@ func (c *Client) do(method, path string) (*http.Response, error) {
 	}
 
 	// create the request
-	req := &http.Request{
-		URL:           uri,
-		Method:        method,
-		ProtoMajor:    1,
-		ProtoMinor:    1,
-		Close:         true,
-		ContentLength: 0,
+	req, err := http.NewRequest(method, uri.String(), nil)
+	if err != nil {
+		return nil, err
 	}
+	req.ProtoAtLeast(1, 1)
+	req.Close = true
+	req.ContentLength = 0
 
 	// make the request using the default http client
 	return http.DefaultClient.Do(req)
