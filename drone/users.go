@@ -43,3 +43,8 @@ func (s *UserService) List() ([]*User, error) {
 	var err = s.run("GET", "/api/users", nil, &users)
 	return users, err
 }
+
+// POST /api/user/sync
+func (s *UserService) Sync() error {
+	return s.run("POST", "/api/user/sync", nil, nil)
+}
