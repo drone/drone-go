@@ -28,11 +28,13 @@ type Repo struct {
 	Privileged  bool   `json:"privileged"`
 	PostCommit  bool   `json:"post_commits"`
 	PullRequest bool   `json:"pull_requests"`
-	PublicKey   string `json:"public_key"`
 	PrivateKey  string `json:"private_key"`
 	Timeout     int64  `json:"timeout"`
 	Created     int64  `json:"created_at"`
 	Updated     int64  `json:"updated_at"`
+	// NOTE: these fields will be blank unless the token used has admin privileges
+	Params    string `json:"params"`
+	PublicKey string `json:"public_key"`
 }
 
 type Commit struct {

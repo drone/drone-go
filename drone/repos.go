@@ -9,6 +9,7 @@ type RepoService struct {
 }
 
 // GET /api/repos/{host}/{owner}/{name}
+// This query will return privileged attributes only if the token used has admin privileges.
 func (s *RepoService) Get(host, owner, name string) (*Repo, error) {
 	var path = fmt.Sprintf("/api/repos/%s/%s/%s", host, owner, name)
 	var repo = Repo{}
@@ -62,6 +63,7 @@ func (s *RepoService) SetParams(host, owner, name, params string) error {
 }
 
 // GET /api/user/repos
+// This query does not return privileged attributes.
 func (s *RepoService) List() ([]*Repo, error) {
 	var repos []*Repo
 	var err = s.run("GET", "/api/user/repos", nil, &repos)
