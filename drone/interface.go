@@ -58,4 +58,16 @@ type Client interface {
 
 	// BuildLogs returns the build logs for the specified job.
 	BuildLogs(string, string, int, int) (io.ReadCloser, error)
+
+	// Node returns a node by id.
+	Node(int64) (*Node, error)
+
+	// NodeList returns a list of all registered worker nodes.
+	NodeList() ([]*Node, error)
+
+	// NodePost registers a new worker node.
+	NodePost(*Node) (*Node, error)
+
+	// NodeDel deletes a worker node.
+	NodeDel(int64) error
 }

@@ -358,3 +358,78 @@ func (_m *Client) BuildLogs(_a0 string, _a1 string, _a2 int, _a3 int) (io.ReadCl
 
 	return r0, r1
 }
+func (_m *Client) Node(_a0 int64) (*drone.Node, error) {
+	ret := _m.Called(_a0)
+
+	var r0 *drone.Node
+	if rf, ok := ret.Get(0).(func(int64) *drone.Node); ok {
+		r0 = rf(_a0)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*drone.Node)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int64) error); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+func (_m *Client) NodeList() ([]*drone.Node, error) {
+	ret := _m.Called()
+
+	var r0 []*drone.Node
+	if rf, ok := ret.Get(0).(func() []*drone.Node); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*drone.Node)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+func (_m *Client) NodePost(_a0 *drone.Node) (*drone.Node, error) {
+	ret := _m.Called(_a0)
+
+	var r0 *drone.Node
+	if rf, ok := ret.Get(0).(func(*drone.Node) *drone.Node); ok {
+		r0 = rf(_a0)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*drone.Node)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*drone.Node) error); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+func (_m *Client) NodeDel(_a0 int64) error {
+	ret := _m.Called(_a0)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int64) error); ok {
+		r0 = rf(_a0)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}

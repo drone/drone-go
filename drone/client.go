@@ -84,7 +84,7 @@ func (c *client) UserList() ([]*User, error) {
 // UserPost creates a new user account.
 func (c *client) UserPost(in *User) (*User, error) {
 	out := new(User)
-	uri := fmt.Sprintf(pathUser, c.base, in.Login)
+	uri := fmt.Sprintf(pathUsers, c.base)
 	err := c.post(uri, in, out)
 	return out, err
 }
@@ -196,6 +196,37 @@ func (c *client) BuildStop(owner, name string, num, job int) error {
 func (c *client) BuildLogs(owner, name string, num, job int) (io.ReadCloser, error) {
 	uri := fmt.Sprintf(pathLog, c.base, owner, name, num, job)
 	return c.stream(uri, "GET", nil, nil)
+}
+
+// Node returns a node by id.
+func (c *client) Node(id int64) (*Node, error) {
+	out := new(Node)
+	uri := fmt.Sprintf(pathNode, c.base, id)
+	err := c.get(uri, out)
+	return out, err
+}
+
+// NodeList returns a list of all registered worker nodes.
+func (c *client) NodeList() ([]*Node, error) {
+	out := make([]*Node, 0)
+	uri := fmt.Sprintf(pathNodes, c.base)
+	err := c.get(uri, &out)
+	return out, err
+}
+
+// NodePost registers a new worker node.
+func (c *client) NodePost(in *Node) (*Node, error) {
+	out := new(Node)
+	uri := fmt.Sprintf(pathNodes, c.base)
+	err := c.post(uri, in, out)
+	return out, err
+}
+
+// NodeDel deletes a worker node.
+func (c *client) NodeDel(id int64) error {
+	uri := fmt.Sprintf(pathNode, c.base, id)
+	err := c.delete(uri)
+	return err
 }
 
 //
