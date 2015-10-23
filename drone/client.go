@@ -77,7 +77,7 @@ func (c *client) User(login string) (*User, error) {
 func (c *client) UserList() ([]*User, error) {
 	out := make([]*User, 0)
 	uri := fmt.Sprintf(pathUsers, c.base)
-	err := c.get(uri, out)
+	err := c.get(uri, &out)
 	return out, err
 }
 
@@ -108,7 +108,7 @@ func (c *client) UserDel(login string) error {
 func (c *client) UserFeed() ([]*Activity, error) {
 	out := make([]*Activity, 0)
 	uri := fmt.Sprintf(pathFeed, c.base)
-	err := c.get(uri, out)
+	err := c.get(uri, &out)
 	return out, err
 }
 
@@ -125,7 +125,7 @@ func (c *client) Repo(owner string, name string) (*Repo, error) {
 func (c *client) RepoList() ([]*Repo, error) {
 	out := make([]*Repo, 0)
 	uri := fmt.Sprintf(pathRepos, c.base)
-	err := c.get(uri, out)
+	err := c.get(uri, &out)
 	return out, err
 }
 
@@ -173,7 +173,7 @@ func (c *client) Build(owner, name string, num int) (*Build, error) {
 func (c *client) BuildList(owner, name string) ([]*Build, error) {
 	out := make([]*Build, 0)
 	uri := fmt.Sprintf(pathBuilds, c.base)
-	err := c.get(uri, out)
+	err := c.get(uri, &out)
 	return out, err
 }
 
