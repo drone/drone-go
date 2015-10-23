@@ -1,5 +1,7 @@
 # drone-go
 
+[![Build Status](http://beta.drone.io/api/badges/drone/drone-go/status.svg)](http://beta.drone.io/drone/drone-go)
+
 drone-go is a Go client library for accessing the Drone [API](http://readme.drone.io/docs/api) and writing [plugins](http://readme.drone.io/docs/plugin).
 
 Download the package using `go get`:
