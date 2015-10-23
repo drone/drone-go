@@ -172,7 +172,7 @@ func (c *client) Build(owner, name string, num int) (*Build, error) {
 // the specified repository.
 func (c *client) BuildList(owner, name string) ([]*Build, error) {
 	out := make([]*Build, 0)
-	uri := fmt.Sprintf(pathBuilds, c.base)
+	uri := fmt.Sprintf(pathBuilds, c.base, owner, name)
 	err := c.get(uri, &out)
 	return out, err
 }
