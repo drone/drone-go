@@ -1,62 +1,142 @@
 package drone
 
+// User represents a user account.
 type User struct {
-	ID       int64  `json:"-"`
-	Remote   string `json:"remote"`
-	Login    string `json:"login"`
-	Name     string `json:"name"`
-	Email    string `json:"email,omitempty"`
-	Gravatar string `json:"gravatar"`
-	Admin    bool   `json:"admin"`
-	Active   bool   `json:"active"`
-	Syncing  bool   `json:"syncing"`
-	Created  int64  `json:"created_at"`
-	Updated  int64  `json:"updated_at"`
+	ID     int64  `json:"id""`
+	Login  string `json:"login"`
+	Email  string `json:"email"`
+	Avatar string `json:"avatar_url"`
+	Active bool   `json:"active"`
+	Admin  bool   `json:"admin"`
 }
 
+// Repo represents a version control repository.
 type Repo struct {
-	Remote      string `json:"remote"`
-	Host        string `json:"host"`
+	ID          int64  `json:"id"`
 	Owner       string `json:"owner"`
 	Name        string `json:"name"`
-	URL         string `json:"url"`
-	CloneURL    string `json:"clone_url"`
-	GitURL      string `json:"git_url"`
-	SSHURL      string `json:"ssh_url"`
-	Active      bool   `json:"active"`
-	Private     bool   `json:"private"`
-	Privileged  bool   `json:"privileged"`
-	PostCommit  bool   `json:"post_commits"`
-	PullRequest bool   `json:"pull_requests"`
-	PublicKey   string `json:"public_key"`
-	PrivateKey  string `json:"private_key"`
+	FullName    string `json:"full_name"`
+	Avatar      string `json:"avatar_url"`
+	Link        string `json:"link_url"`
+	Clone       string `json:"clone_url"`
+	Branch      string `json:"default_branch"`
 	Timeout     int64  `json:"timeout"`
-	Created     int64  `json:"created_at"`
-	Updated     int64  `json:"updated_at"`
+	IsPrivate   bool   `json:"private"`
+	IsTrusted   bool   `json:"trusted"`
+	AllowPull   bool   `json:"allow_pr"`
+	AllowPush   bool   `json:"allow_push"`
+	AllowDeploy bool   `json:"allow_deploys"`
+	AllowTag    bool   `json:"allow_tags"`
 }
 
-type Commit struct {
-	ID          int64  `json:"id"`
-	Status      string `json:"status"`
-	Started     int64  `json:"started_at"`
-	Finished    int64  `json:"finished_at"`
-	Duration    int64  `json:"duration"`
-	Sha         string `json:"sha"`
-	Branch      string `json:"branch"`
-	PullRequest string `json:"pull_request"`
-	Author      string `json:"author"`
-	Gravatar    string `json:"gravatar"`
-	Timestamp   string `json:"timestamp"`
-	Message     string `json:"message"`
-	Created     int64  `json:"created_at"`
-	Updated     int64  `json:"updated_at"`
+// Build represents the process of compiling and testing a changeset,
+// typically triggered by the remote system (ie GitHub).
+type Build struct {
+	ID        int64  `json:"id"`
+	Number    int    `json:"number"`
+	Event     string `json:"event"`
+	Status    string `json:"status"`
+	Enqueued  int64  `json:"enqueued_at"`
+	Created   int64  `json:"created_at"`
+	Started   int64  `json:"started_at"`
+	Finished  int64  `json:"finished_at"`
+	Commit    string `json:"commit"`
+	Branch    string `json:"branch"`
+	Ref       string `json:"ref"`
+	Refspec   string `json:"refspec"`
+	Remote    string `json:"remote"`
+	Title     string `json:"title"`
+	Message   string `json:"message"`
+	Timestamp int64  `json:"timestamp"`
+	Author    string `json:"author"`
+	Avatar    string `json:"author_avatar"`
+	Email     string `json:"author_email"`
+	Link      string `json:"link_url"`
 }
 
-// Returns the Short (--short) Commit Hash.
-func (c *Commit) ShaShort() string {
-	if len(c.Sha) > 8 {
-		return c.Sha[:8]
-	} else {
-		return c.Sha
-	}
+// Job represents a single job that is being executed as part
+// of a Build.
+type Job struct {
+	ID       int64  `json:"id"`
+	Number   int    `json:"number"`
+	Status   string `json:"status"`
+	ExitCode int    `json:"exit_code"`
+	Enqueued int64  `json:"enqueued_at"`
+	Started  int64  `json:"started_at"`
+	Finished int64  `json:"finished_at"`
+
+	Environment map[string]string `json:"environment"`
+}
+
+// Activity represents a build activity. It combines the
+// build details with summary Repository information.
+type Activity struct {
+	Owner     string `json:"owner"`
+	Name      string `json:"name"`
+	FullName  string `json:"full_name"`
+	Number    int    `json:"number"`
+	Event     string `json:"event"`
+	Status    string `json:"status"`
+	Enqueued  int64  `json:"enqueued_at"`
+	Created   int64  `json:"created_at"`
+	Started   int64  `json:"started_at"`
+	Finished  int64  `json:"finished_at"`
+	Commit    string `json:"commit"`
+	Branch    string `json:"branch"`
+	Ref       string `json:"ref"`
+	Refspec   string `json:"refspec"`
+	Remote    string `json:"remote"`
+	Title     string `json:"title"`
+	Message   string `json:"message"`
+	Timestamp int64  `json:"timestamp"`
+	Author    string `json:"author"`
+	Avatar    string `json:"author_avatar"`
+	Email     string `json:"author_email"`
+	Link      string `json:"link_url"`
+}
+
+// Repo represents a local or remote Docker daemon that is
+// repsonsible for running jobs.
+type Node struct {
+	ID   int64  `json:"id"`
+	Addr string `json:"address"`
+	Arch string `json:"architecture"`
+	Cert string `json:"cert"`
+	Key  string `json:"key"`
+	CA   string `json:"ca"`
+}
+
+// Key represents an RSA public and private key assigned to a
+// repository. It may be used to clone private repositories, or as
+// a deployment key.
+type Key struct {
+	Public  string `json:"public"`
+	Private string `json:"private"`
+}
+
+// Netrc defines a default .netrc file that should be injected
+// into the build environment. It will be used to authorize access
+// to https resources, such as git+https clones.
+type Netrc struct {
+	Machine  string `json:"machine"`
+	Login    string `json:"login"`
+	Password string `json:"user"`
+}
+
+type System struct {
+	Version string   `json:"version"`
+	Link    string   `json:"link_url"`
+	Plugins []string `json:"plugins"`
+	Globals []string `json:"globals"`
+}
+
+// Workspace defines the build's workspace inside the
+// container. This helps the plugin locate the source
+// code directory.
+type Workspace struct {
+	Root string `json:"root"`
+	Path string `json:"path"`
+
+	Netrc *Netrc `json:"netrc"`
+	Keys  *Key   `json:"keys"`
 }
