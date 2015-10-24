@@ -156,7 +156,13 @@ func (c *client) RepoDel(owner, name string) error {
 func (c *client) RepoKey(owner, name string) (*Key, error) {
 	out := new(Key)
 	uri := fmt.Sprintf(pathKey, c.base, owner, name)
-	err := c.get(uri, out)
+	rc, err := c.stream(uri, "GET", nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer rc.Close()
+	raw, _ := ioutil.ReadAll(rc)
+	out.Public = string(raw)
 	return out, err
 }
 
