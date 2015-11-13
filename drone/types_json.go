@@ -108,3 +108,7 @@ func (e *StringMap) Map() map[string]string {
 	}
 	return e.parts
 }
+
+func NewStringMap(parts map[string]string) StringMap {
+	return StringMap{parts}
+}
