@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"os"
 	"strings"
 	"time"
 	"unicode"
@@ -75,8 +74,8 @@ func toDatetime(timestamp float64, layout, zone string) string {
 	}
 	loc, err := time.LoadLocation(zone)
 	if err != nil {
-		fmt.Printf("Error parsing timezone. %s\n", err)
-		os.Exit(1)
+		fmt.Printf("Error parsing timezone, defaulting to local timezone. %s\n", err)
+		return time.Unix(int64(timestamp), 0).Local().Format(layout)
 	}
 	return time.Unix(int64(timestamp), 0).In(loc).Format(layout)
 }
