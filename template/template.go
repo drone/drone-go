@@ -8,10 +8,18 @@ import (
 	"time"
 
 	"github.com/aymerick/raymond"
+	"github.com/drone/drone-go/drone"
 )
 
 func init() {
 	raymond.RegisterHelpers(funcs)
+}
+
+type Args struct {
+	Repo   *drone.Repo            `json:"repo"`
+	Build  *drone.Build           `json:"build"`
+	System *drone.System          `json:"system"`
+	Vargs  map[string]interface{} `json:"vargs"`
 }
 
 // Render parses and executes a template, returning the results
