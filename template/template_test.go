@@ -27,14 +27,19 @@ var tests = []struct {
 		"octocat",
 	},
 	{
+		drone.Build{Status: drone.StatusSuccess},
+		"{{uppercasefirst status}}",
+		"Success",
+	},
+	{
 		drone.Build{Started: 1448127131, Finished: 1448127505},
 		"{{ duration started_at finished_at }}",
 		"374ns",
 	},
 	{
 		drone.Build{Finished: 1448127505},
-		`finished at {{ datetime finished_at "3:04PM" }}`,
-		"finished at 9:38AM",
+		`finished at {{ datetime finished_at "3:04PM" "UTC" }}`,
+		"finished at 5:38PM",
 	},
 	// verify the success if / else block works
 	{
