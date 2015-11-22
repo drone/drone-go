@@ -68,8 +68,16 @@ func toDuration(started, finished float64) string {
 }
 
 // toDatetime is a helper function that converts a unix timestamp to a string.
-func toDatetime(timestamp float64, layout string) string {
-	return time.Unix(int64(timestamp), 0).Format(layout)
+func toDatetime(timestamp float64, layout, zone string) string {
+	if len(zone) == 0 {
+		return time.Unix(int64(timestamp), 0).Format(layout)
+	}
+	loc, err := time.LoadLocation(zone)
+	if err != nil {
+		fmt.Printf("Error parsing timezone, defaulting to local timezone. %s\n", err)
+		return time.Unix(int64(timestamp), 0).Local().Format(layout)
+	}
+	return time.Unix(int64(timestamp), 0).In(loc).Format(layout)
 }
 
 // isSuccess is a helper function that executes a block iff the status
