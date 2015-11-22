@@ -27,6 +27,11 @@ var tests = []struct {
 		"octocat",
 	},
 	{
+		drone.Build{Status: drone.StatusSuccess},
+		"{{uppercasefirst status}}",
+		"Success",
+	},
+	{
 		drone.Build{Started: 1448127131, Finished: 1448127505},
 		"{{ duration started_at finished_at }}",
 		"374ns",
