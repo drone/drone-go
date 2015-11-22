@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 	"time"
 	"unicode"
@@ -68,8 +69,16 @@ func toDuration(started, finished float64) string {
 }
 
 // toDatetime is a helper function that converts a unix timestamp to a string.
-func toDatetime(timestamp float64, layout string) string {
-	return time.Unix(int64(timestamp), 0).Format(layout)
+func toDatetime(timestamp float64, layout, zone string) string {
+	if len(zone) == 0 {
+		return time.Unix(int64(timestamp), 0).Format(layout)
+	}
+	loc, err := time.LoadLocation(zone)
+	if err != nil {
+		fmt.Printf("Error parsing timezone. %s\n", err)
+		os.Exit(1)
+	}
+	return time.Unix(int64(timestamp), 0).In(loc).Format(layout)
 }
 
 // isSuccess is a helper function that executes a block iff the status
