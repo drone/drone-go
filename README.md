@@ -7,8 +7,8 @@ drone-go is a Go client library for accessing the Drone [API](http://readme.dron
 Download the package using `go get`:
 
 ```Go
-go get github.com/drone/drone-go/drone
-go get github.com/drone/drone-go/plugin
+go get "github.com/drone/drone-go/drone"
+go get "github.com/drone/drone-go/plugin"
 ```
 
 Import the package:
