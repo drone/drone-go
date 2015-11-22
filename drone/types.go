@@ -140,3 +140,18 @@ type Workspace struct {
 	Netrc *Netrc `json:"netrc"`
 	Keys  *Key   `json:"keys"`
 }
+
+// Payload defines the full payload send to plugins.
+type Payload struct {
+	Yaml      string      `json:"config"`
+	YamlEnc   string      `json:"secret"`
+	Repo      *Repo       `json:"repo"`
+	Build     *Build      `json:"build"`
+	BuildLast *Build      `json:"build_last"`
+	Job       *Job        `json:"job"`
+	Netrc     *Netrc      `json:"netrc"`
+	Keys      *Key        `json:"keys"`
+	System    *System     `json:"system"`
+	Workspace *Workspace  `json:"workspace"`
+	Vargs     interface{} `json:"vargs"`
+}

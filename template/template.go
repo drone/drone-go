@@ -16,17 +16,16 @@ func init() {
 }
 
 type Args struct {
-	Repo   *drone.Repo            `json:"repo"`
-	Build  *drone.Build           `json:"build"`
-	System *drone.System          `json:"system"`
-	Vargs  map[string]interface{} `json:"vargs"`
+	Repo   *drone.Repo   `json:"repo"`
+	Build  *drone.Build  `json:"build"`
+	System *drone.System `json:"system"`
+	Vargs  interface{}   `json:"vargs"`
 }
 
 // Render parses and executes a template, returning the results
 // in string format.
 func Render(template string, args interface{}) (string, error) {
-
-	return raymond.Render(template, args)
+	return raymond.Render(template, normalize(args))
 }
 
 // Render parses and executes a template, returning the results
@@ -34,7 +33,7 @@ func Render(template string, args interface{}) (string, error) {
 // padding and newlines that may be added unintentially in the
 // template markup.
 func RenderTrim(template string, args interface{}) (string, error) {
-	out, err := Render(template, normalize(args))
+	out, err := Render(template, args)
 	return strings.Trim(out, " \n"), err
 }
 
