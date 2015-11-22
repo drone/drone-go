@@ -38,8 +38,8 @@ var tests = []struct {
 	},
 	{
 		drone.Build{Finished: 1448127505},
-		`finished at {{ datetime finished_at "3:04PM" }}`,
-		"finished at 9:38AM",
+		`finished at {{ datetime finished_at "Mon Jan _2 15:04:05 2006" }}`,
+		"finished at Sat Nov 21 11:38:25 2015",
 	},
 	// verify the success if / else block works
 	{
