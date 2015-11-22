@@ -6,6 +6,7 @@ import (
 	"io"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/aymerick/raymond"
 )
@@ -17,11 +18,10 @@ func init() {
 // Render parses and executes a template, returning the results
 // in string format.
 func Render(template string, args interface{}) (string, error) {
-
 	return raymond.Render(template, args)
 }
 
-// Render parses and executes a template, returning the results
+// RenderTrim parses and executes a template, returning the results
 // in string format. The result is trimmed to remove left and right
 // padding and newlines that may be added unintentially in the
 // template markup.
@@ -42,12 +42,22 @@ func Write(w io.Writer, template string, args interface{}) error {
 }
 
 var funcs = map[string]interface{}{
-	"uppercase": strings.ToUpper,
-	"lowercase": strings.ToLower,
-	"duration":  toDuration,
-	"datetime":  toDatetime,
-	"success":   isSuccess,
-	"failure":   isFailure,
+	"uppercase":      strings.ToUpper,
+	"lowercase":      strings.ToLower,
+	"uppercasefirst": uppercaseFirst,
+	"duration":       toDuration,
+	"datetime":       toDatetime,
+	"success":        isSuccess,
+	"failure":        isFailure,
+}
+
+// uppercaseFirst is a helper function that takes a string and capitalizes
+// the first letter.
+func uppercaseFirst(s string) string {
+	a := []rune(s)
+	a[0] = unicode.ToUpper(a[0])
+	s = string(a)
+	return s
 }
 
 // toDuration is a helper function that calculates a duration for a start and
