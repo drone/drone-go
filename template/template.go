@@ -16,32 +16,25 @@ func init() {
 	raymond.RegisterHelpers(funcs)
 }
 
-type Args struct {
-	Repo   *drone.Repo   `json:"repo"`
-	Build  *drone.Build  `json:"build"`
-	System *drone.System `json:"system"`
-	Vargs  interface{}   `json:"vargs"`
-}
-
 // Render parses and executes a template, returning the results
 // in string format.
-func Render(template string, args interface{}) (string, error) {
-	return raymond.Render(template, normalize(args))
+func Render(template string, playload *drone.Payload) (string, error) {
+	return raymond.Render(template, normalize(playload))
 }
 
 // RenderTrim parses and executes a template, returning the results
 // in string format. The result is trimmed to remove left and right
 // padding and newlines that may be added unintentially in the
 // template markup.
-func RenderTrim(template string, args interface{}) (string, error) {
-	out, err := Render(template, args)
+func RenderTrim(template string, playload *drone.Payload) (string, error) {
+	out, err := Render(template, playload)
 	return strings.Trim(out, " \n"), err
 }
 
 // Write parses and executes a template, writing the results to
 // writer w.
-func Write(w io.Writer, template string, args interface{}) error {
-	out, err := Render(template, args)
+func Write(w io.Writer, template string, playload *drone.Payload) error {
+	out, err := Render(template, playload)
 	if err != nil {
 		return err
 	}
