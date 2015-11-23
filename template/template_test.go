@@ -7,70 +7,73 @@ import (
 )
 
 var tests = []struct {
-	Build  drone.Build
-	Input  string
-	Output string
+	Payload *drone.Payload
+	Input   string
+	Output  string
 }{
 	{
-		drone.Build{Number: 1},
-		"build #{{number}}",
+		&drone.Payload{Build: &drone.Build{Number: 1}},
+		"build #{{build.number}}",
 		"build #1",
 	},
 	{
-		drone.Build{Status: drone.StatusSuccess},
-		"{{uppercase status}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusSuccess}},
+		"{{uppercase build.status}}",
 		"SUCCESS",
 	},
 	{
-		drone.Build{Author: "Octocat"},
-		"{{lowercase author}}",
+		&drone.Payload{Build: &drone.Build{Author: "Octocat"}},
+		"{{lowercase build.author}}",
 		"octocat",
 	},
 	{
-		drone.Build{Status: drone.StatusSuccess},
-		"{{uppercasefirst status}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusSuccess}},
+		"{{uppercasefirst build.status}}",
 		"Success",
 	},
 	{
-		drone.Build{Started: 1448127131, Finished: 1448127505},
-		"{{ duration started_at finished_at }}",
+		&drone.Payload{Build: &drone.Build{
+			Started:  1448127131,
+			Finished: 1448127505},
+		},
+		"{{ duration build.started_at build.finished_at }}",
 		"374ns",
 	},
 	{
-		drone.Build{Finished: 1448127505},
-		`finished at {{ datetime finished_at "3:04PM" "UTC" }}`,
+		&drone.Payload{Build: &drone.Build{Finished: 1448127505}},
+		`finished at {{ datetime build.finished_at "3:04PM" "UTC" }}`,
 		"finished at 5:38PM",
 	},
 	// verify the success if / else block works
 	{
-		drone.Build{Status: drone.StatusSuccess},
-		"{{#success status}}SUCCESS{{/success}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusSuccess}},
+		"{{#success build.status}}SUCCESS{{/success}}",
 		"SUCCESS",
 	},
 	{
-		drone.Build{Status: drone.StatusFailure},
-		"{{#success status}}SUCCESS{{/success}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusFailure}},
+		"{{#success build.status}}SUCCESS{{/success}}",
 		"",
 	},
 	{
-		drone.Build{Status: drone.StatusFailure},
-		"{{#success status}}SUCCESS{{else}}NOT SUCCESS{{/success}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusFailure}},
+		"{{#success build.status}}SUCCESS{{else}}NOT SUCCESS{{/success}}",
 		"NOT SUCCESS",
 	},
 	// verify the failure if / else block works
 	{
-		drone.Build{Status: drone.StatusFailure},
-		"{{#failure status}}FAILURE{{/failure}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusFailure}},
+		"{{#failure build.status}}FAILURE{{/failure}}",
 		"FAILURE",
 	},
 	{
-		drone.Build{Status: drone.StatusSuccess},
-		"{{#failure status}}FAILURE{{/failure}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusSuccess}},
+		"{{#failure build.status}}FAILURE{{/failure}}",
 		"",
 	},
 	{
-		drone.Build{Status: drone.StatusSuccess},
-		"{{#failure status}}FAILURE{{else}}NOT FAILURE{{/failure}}",
+		&drone.Payload{Build: &drone.Build{Status: drone.StatusSuccess}},
+		"{{#failure build.status}}FAILURE{{else}}NOT FAILURE{{/failure}}",
 		"NOT FAILURE",
 	},
 }
@@ -78,7 +81,7 @@ var tests = []struct {
 func TestTemplate(t *testing.T) {
 
 	for _, test := range tests {
-		got, err := RenderTrim(test.Input, &test.Build)
+		got, err := RenderTrim(test.Input, test.Payload)
 		if err != nil {
 			t.Errorf("Failed rendering template %q, got error %s.", test.Input, err)
 		}
