@@ -51,11 +51,11 @@ var funcs = map[string]interface{}{
 	"datetime":       toDatetime,
 	"success":        isSuccess,
 	"failure":        isFailure,
-	"limit":          limit,
+	"truncate":       truncate,
 }
 
-// limit is a helper function that truncates a string by a particular length.
-func limit(s string, len int) string {
+// truncate is a helper function that truncates a string by a particular length.
+func truncate(s string, len int) string {
 	if utf8.RuneCountInString(s) <= len {
 		return s
 	}

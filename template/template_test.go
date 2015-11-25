@@ -15,7 +15,7 @@ var tests = []struct {
 		&drone.Payload{Build: &drone.Build{
 			Commit: "0a266f42a9aef9db97a005ab46f6c53890339a9c"},
 		},
-		"{{ limit build.commit 8 }}",
+		"{{ truncate build.commit 8 }}",
 		"0a266f42",
 	},
 	{
