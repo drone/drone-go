@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 	"unicode"
+	"unicode/utf8"
 
 	"github.com/aymerick/raymond"
 	"github.com/drone/drone-go/drone"
@@ -43,13 +44,24 @@ func Write(w io.Writer, template string, playload *drone.Payload) error {
 }
 
 var funcs = map[string]interface{}{
+	"uppercasefirst": uppercaseFirst,
 	"uppercase":      strings.ToUpper,
 	"lowercase":      strings.ToLower,
-	"uppercasefirst": uppercaseFirst,
 	"duration":       toDuration,
 	"datetime":       toDatetime,
 	"success":        isSuccess,
 	"failure":        isFailure,
+	"limit":          limit,
+}
+
+// limit is a helper function that truncates a string by a particular length.
+func limit(s string, len int) string {
+	if utf8.RuneCountInString(s) <= len {
+		return s
+	}
+	runes := []rune(s)
+	return string(runes[:len])
+
 }
 
 // uppercaseFirst is a helper function that takes a string and capitalizes
