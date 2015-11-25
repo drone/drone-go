@@ -40,6 +40,7 @@ type Build struct {
 	Created   int64  `json:"created_at"`
 	Started   int64  `json:"started_at"`
 	Finished  int64  `json:"finished_at"`
+	Deploy    string `json:"deploy_to"`
 	Commit    string `json:"commit"`
 	Branch    string `json:"branch"`
 	Ref       string `json:"ref"`
