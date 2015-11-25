@@ -44,7 +44,7 @@ var tests = []struct {
 			Finished: 1448127505},
 		},
 		"{{ duration build.started_at build.finished_at }}",
-		"374ns",
+		"6m14s",
 	},
 	{
 		&drone.Payload{Build: &drone.Build{Finished: 1448127505}},

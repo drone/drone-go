@@ -76,8 +76,7 @@ func uppercaseFirst(s string) string {
 // toDuration is a helper function that calculates a duration for a start and
 // and end time, and returns the duration in string format.
 func toDuration(started, finished float64) string {
-	dur := time.Duration(int64(finished - started))
-	return fmt.Sprintln(dur)
+	return fmt.Sprintln(time.Duration(finished-started) * time.Second)
 }
 
 // toDatetime is a helper function that converts a unix timestamp to a string.
