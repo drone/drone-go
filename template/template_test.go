@@ -12,6 +12,13 @@ var tests = []struct {
 	Output  string
 }{
 	{
+		&drone.Payload{Build: &drone.Build{
+			Commit: "0a266f42a9aef9db97a005ab46f6c53890339a9c"},
+		},
+		"{{ truncate build.commit 8 }}",
+		"0a266f42",
+	},
+	{
 		&drone.Payload{Build: &drone.Build{Number: 1}},
 		"build #{{build.number}}",
 		"build #1",
