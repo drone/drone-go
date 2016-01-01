@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+// Standard Input
 var Stdin *ParamSet
 
 func init() {
@@ -54,11 +55,13 @@ func deprecated_init() {
 	}
 }
 
+// ParamSet describes a parameter set.
 type ParamSet struct {
 	reader io.Reader
 	params map[string]interface{}
 }
 
+// NewParamSet takes a io.Reader and returns a ParamSet.
 func NewParamSet(reader io.Reader) *ParamSet {
 	var p = new(ParamSet)
 	p.reader = reader
@@ -115,7 +118,7 @@ func Unmarshal(v interface{}) error {
 	return Stdin.Unmarshal(v)
 }
 
-// Unmarshal parses the JSON payload from the command
+// MustUnmarshal parses the JSON payload from the command
 // arguments and unmarshal into a value pointed to by v.
 func MustUnmarshal(v interface{}) error {
 	return Stdin.Unmarshal(v)

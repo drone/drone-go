@@ -10,6 +10,7 @@ type StringSlice struct {
 	parts []string
 }
 
+// UnmarshalJSON unmarshals bytes into a StringSlice.
 func (e *StringSlice) UnmarshalJSON(b []byte) error {
 	if len(b) == 0 {
 		return nil
@@ -28,6 +29,7 @@ func (e *StringSlice) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// Len returns the number of strings in a StringSlice.
 func (e *StringSlice) Len() int {
 	if e == nil {
 		return 0
@@ -35,6 +37,7 @@ func (e *StringSlice) Len() int {
 	return len(e.parts)
 }
 
+// Slice returns the slice of strings in a StringSlice.
 func (e *StringSlice) Slice() []string {
 	if e == nil {
 		return nil
@@ -47,6 +50,7 @@ type StringInt struct {
 	value string
 }
 
+// UnmarshalJSON unmarshals bytes into a StringInt.
 func (e *StringInt) UnmarshalJSON(b []byte) error {
 	var num int
 	err := json.Unmarshal(b, &num)
@@ -57,6 +61,7 @@ func (e *StringInt) UnmarshalJSON(b []byte) error {
 	return json.Unmarshal(b, &e.value)
 }
 
+// String satisfies the fmt.Stringer interface.
 func (e StringInt) String() string {
 	return e.value
 }
@@ -67,6 +72,7 @@ type StringMap struct {
 	parts map[string]string
 }
 
+// UnmarshalJSON unmarshals bytes into a StringMap.
 func (e *StringMap) UnmarshalJSON(b []byte) error {
 	if len(b) == 0 {
 		return nil
@@ -85,6 +91,7 @@ func (e *StringMap) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// Len returns the number of elements in the StringMap.
 func (e *StringMap) Len() int {
 	if e == nil {
 		return 0
@@ -92,6 +99,7 @@ func (e *StringMap) Len() int {
 	return len(e.parts)
 }
 
+// String satisfies the fmt.Stringer interface.
 func (e *StringMap) String() (str string) {
 	if e == nil {
 		return
@@ -102,6 +110,7 @@ func (e *StringMap) String() (str string) {
 	return
 }
 
+// Map returns StringMap as a map of string to string.
 func (e *StringMap) Map() map[string]string {
 	if e == nil {
 		return nil
@@ -109,6 +118,7 @@ func (e *StringMap) Map() map[string]string {
 	return e.parts
 }
 
+// NewStringMap takes a map of string to string and returns a StringMap.
 func NewStringMap(parts map[string]string) StringMap {
 	return StringMap{parts}
 }
