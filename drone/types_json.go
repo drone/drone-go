@@ -42,26 +42,10 @@ func (e *StringSlice) Slice() []string {
 	return e.parts
 }
 
-// StringInt representes a string or an integer value.
-type StringInt struct {
-	value string
+func NewStringSlice(parts []string) StringSlice {
+	return StringSlice{parts}
 }
 
-func (e *StringInt) UnmarshalJSON(b []byte) error {
-	var num int
-	err := json.Unmarshal(b, &num)
-	if err == nil {
-		e.value = strconv.Itoa(num)
-		return nil
-	}
-	return json.Unmarshal(b, &e.value)
-}
-
-func (e StringInt) String() string {
-	return e.value
-}
-
-// StringMap representes a string or a map of strings.
 // StringMap representes a string or a map of strings.
 type StringMap struct {
 	parts map[string]string
@@ -111,4 +95,23 @@ func (e *StringMap) Map() map[string]string {
 
 func NewStringMap(parts map[string]string) StringMap {
 	return StringMap{parts}
+}
+
+// StringInt representes a string or an integer value.
+type StringInt struct {
+	value string
+}
+
+func (e *StringInt) UnmarshalJSON(b []byte) error {
+	var num int
+	err := json.Unmarshal(b, &num)
+	if err == nil {
+		e.value = strconv.Itoa(num)
+		return nil
+	}
+	return json.Unmarshal(b, &e.value)
+}
+
+func (e StringInt) String() string {
+	return e.value
 }
