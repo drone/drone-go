@@ -2,7 +2,7 @@ package drone
 
 // User represents a user account.
 type User struct {
-	ID     int64  `json:"id""`
+	ID     int64  `json:"id"`
 	Login  string `json:"login"`
 	Email  string `json:"email"`
 	Avatar string `json:"avatar_url"`
@@ -96,8 +96,8 @@ type Activity struct {
 	Link      string `json:"link_url"`
 }
 
-// Repo represents a local or remote Docker daemon that is
-// repsonsible for running jobs.
+// Node represents a local or remote Docker daemon that is
+// responsible for running jobs.
 type Node struct {
 	ID   int64  `json:"id"`
 	Addr string `json:"address"`
@@ -124,6 +124,7 @@ type Netrc struct {
 	Password string `json:"user"`
 }
 
+// System represents the drone system.
 type System struct {
 	Version string   `json:"version"`
 	Link    string   `json:"link_url"`

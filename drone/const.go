@@ -1,5 +1,6 @@
 package drone
 
+// Events
 const (
 	EventPush   = "push"
 	EventPull   = "pull_request"
@@ -7,6 +8,7 @@ const (
 	EventDeploy = "deployment"
 )
 
+// Statuses
 const (
 	StatusSkipped = "skipped"
 	StatusPending = "pending"
@@ -17,6 +19,7 @@ const (
 	StatusError   = "error"
 )
 
+// Architectures
 const (
 	Freebsd_386 uint = iota
 	Freebsd_amd64
@@ -30,6 +33,7 @@ const (
 	Windows_amd64
 )
 
+// Architecture Map
 var Archs = map[string]uint{
 	"freebsd_386":   Freebsd_386,
 	"freebsd_amd64": Freebsd_amd64,
