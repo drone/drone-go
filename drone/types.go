@@ -97,7 +97,7 @@ type Activity struct {
 }
 
 // Node represents a local or remote Docker daemon that is
-// repsonsible for running jobs.
+// responsible for running jobs.
 type Node struct {
 	ID   int64  `json:"id"`
 	Addr string `json:"address"`
