@@ -2,8 +2,11 @@ package template
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"net/http"
 	"strings"
 	"time"
 	"unicode"
@@ -20,6 +23,24 @@ func init() {
 // Render parses and executes a template, returning the results
 // in string format.
 func Render(template string, playload *drone.Payload) (string, error) {
+	if strings.HasPrefix(template, "http") {
+		resp, err := http.Get(template)
+
+		if err != nil {
+			return "", fmt.Errorf("Failed to fetch remote template: %s", err)
+		}
+
+		defer resp.Body.Close()
+
+		content, err := ioutil.ReadAll(resp.Body)
+
+		if err != nil {
+			return "", fmt.Errorf("Failed to read remote template: %s", err)
+		}
+
+		template = string(content)
+	}
+
 	return raymond.Render(template, normalize(playload))
 }
 
