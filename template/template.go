@@ -13,6 +13,7 @@ import (
 
 	"github.com/aymerick/raymond"
 	"github.com/drone/drone-go/drone"
+	"net/url"
 )
 
 func init() {
@@ -72,6 +73,7 @@ var funcs = map[string]interface{}{
 	"success":        isSuccess,
 	"failure":        isFailure,
 	"truncate":       truncate,
+	"urlencode":      urlencode,
 }
 
 // truncate is a helper function that truncates a string by a particular length.
@@ -152,4 +154,10 @@ func normalize(in interface{}) map[string]interface{} {
 	out := map[string]interface{}{}
 	json.Unmarshal(data, &out)
 	return out
+}
+
+// urlencode is a helper function that encode a block
+// to url safe string.
+func urlencode(options *raymond.Options) string {
+	return url.QueryEscape(options.Fn())
 }
