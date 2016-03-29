@@ -285,6 +285,27 @@ func (_m *Client) Build(_a0 string, _a1 string, _a2 int) (*drone.Build, error) {
 
 	return r0, r1
 }
+func (_m *Client) BuildLast(_a0 string, _a1 string, _a2 string) (*drone.Build, error) {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 *drone.Build
+	if rf, ok := ret.Get(0).(func(string, string, string) *drone.Build); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*drone.Build)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, string) error); ok {
+		r1 = rf(_a0, _a1, _a2)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
 func (_m *Client) BuildList(_a0 string, _a1 string) ([]*drone.Build, error) {
 	ret := _m.Called(_a0, _a1)
 
@@ -339,6 +360,27 @@ func (_m *Client) BuildStop(_a0 string, _a1 string, _a2 int, _a3 int) error {
 
 	return r0
 }
+func (_m *Client) BuildFork(_a0 string, _a1 string, _a2 int) (*drone.Build, error) {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 *drone.Build
+	if rf, ok := ret.Get(0).(func(string, string, int) *drone.Build); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*drone.Build)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, int) error); ok {
+		r1 = rf(_a0, _a1, _a2)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
 func (_m *Client) BuildLogs(_a0 string, _a1 string, _a2 int, _a3 int) (io.ReadCloser, error) {
 	ret := _m.Called(_a0, _a1, _a2, _a3)
 
@@ -351,6 +393,27 @@ func (_m *Client) BuildLogs(_a0 string, _a1 string, _a2 int, _a3 int) (io.ReadCl
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string, int, int) error); ok {
+		r1 = rf(_a0, _a1, _a2, _a3)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+func (_m *Client) Deploy(_a0 string, _a1 string, _a2 int, _a3 string) (*drone.Build, error) {
+	ret := _m.Called(_a0, _a1, _a2, _a3)
+
+	var r0 *drone.Build
+	if rf, ok := ret.Get(0).(func(string, string, int, string) *drone.Build); ok {
+		r0 = rf(_a0, _a1, _a2, _a3)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*drone.Build)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, int, string) error); ok {
 		r1 = rf(_a0, _a1, _a2, _a3)
 	} else {
 		r1 = ret.Error(1)
