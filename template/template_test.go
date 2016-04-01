@@ -83,6 +83,11 @@ var tests = []struct {
 		"{{#failure build.status}}FAILURE{{else}}NOT FAILURE{{/failure}}",
 		"NOT FAILURE",
 	},
+	{
+		&drone.Payload{Build: &drone.Build{Author: "url&unsafe=author!"}},
+		"{{#urlencode}}google https://www.google.co.jp/ {{{build.author}}}{{/urlencode}}",
+		"google+https%3A%2F%2Fwww.google.co.jp%2F+url%26unsafe%3Dauthor%21",
+	},
 }
 
 func TestTemplate(t *testing.T) {
