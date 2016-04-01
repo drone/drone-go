@@ -71,11 +71,11 @@ type Job struct {
 
 // Secret represents a repository secret.
 type Secret struct {
-	ID    int64  `json:"id"`
-	Name  string `json:"name"`
-	Value string `json:"value"`
-	Image string `json:"image"`
-	Event string `json:"event"`
+	ID    int64    `json:"id"`
+	Name  string   `json:"name"`
+	Value string   `json:"value"`
+	Image []string `json:"image"`
+	Event []string `json:"event"`
 }
 
 // Activity represents a build activity. It combines the
