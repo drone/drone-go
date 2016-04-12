@@ -241,7 +241,7 @@ func (c *client) BuildLogs(owner, name string, num, job int) (io.ReadCloser, err
 // specified target environment.
 func (c *client) Deploy(owner, name string, num int, env string) (*Build, error) {
 	out := new(Build)
-	val := new(url.Values)
+	val := url.Values{}
 	val.Set("fork", "true")
 	val.Set("event", "deployment")
 	val.Set("deploy_to", env)
