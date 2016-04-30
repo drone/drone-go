@@ -22,7 +22,7 @@ func init() {
 
 // Render parses and executes a template, returning the results
 // in string format.
-func Render(template string, playload *drone.Payload) (string, error) {
+func Render(template string, payload *drone.Payload) (string, error) {
 	if strings.HasPrefix(template, "http") {
 		resp, err := http.Get(template)
 
@@ -41,22 +41,22 @@ func Render(template string, playload *drone.Payload) (string, error) {
 		template = string(content)
 	}
 
-	return raymond.Render(template, normalize(playload))
+	return raymond.Render(template, normalize(payload))
 }
 
 // RenderTrim parses and executes a template, returning the results
 // in string format. The result is trimmed to remove left and right
 // padding and newlines that may be added unintentially in the
 // template markup.
-func RenderTrim(template string, playload *drone.Payload) (string, error) {
-	out, err := Render(template, playload)
+func RenderTrim(template string, payload *drone.Payload) (string, error) {
+	out, err := Render(template, payload)
 	return strings.Trim(out, " \n"), err
 }
 
 // Write parses and executes a template, writing the results to
 // writer w.
-func Write(w io.Writer, template string, playload *drone.Payload) error {
-	out, err := Render(template, playload)
+func Write(w io.Writer, template string, payload *drone.Payload) error {
+	out, err := Render(template, payload)
 	if err != nil {
 		return err
 	}
