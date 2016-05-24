@@ -43,12 +43,12 @@ var tests = []struct {
 			Started:  1448127131,
 			Finished: 1448127505},
 		},
-		"{{ duration build.started_at build.finished_at }}",
+		"{{ duration build.started build.finished }}",
 		"6m14s",
 	},
 	{
 		&drone.Payload{Build: &drone.Build{Finished: 1448127505}},
-		`finished at {{ datetime build.finished_at "3:04PM" "UTC" }}`,
+		`finished at {{ datetime build.finished "3:04PM" "UTC" }}`,
 		"finished at 5:38PM",
 	},
 	// verify the success if / else block works

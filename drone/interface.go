@@ -41,9 +41,6 @@ type Client interface {
 	// RepoDel deletes a repository.
 	RepoDel(string, string) error
 
-	// RepoKey returns a repository public key.
-	RepoKey(string, string) (*Key, error)
-
 	// Build returns a repository build by number.
 	Build(string, string, int) (*Build, error)
 
@@ -81,15 +78,12 @@ type Client interface {
 	// SecretDel deletes a named repository secret.
 	SecretDel(string, string, string) error
 
-	// Node returns a node by id.
-	Node(int64) (*Node, error)
+	// Agent returns an agent by IP address.
+	Agent(string) (*Agent, error)
 
-	// NodeList returns a list of all registered worker nodes.
-	NodeList() ([]*Node, error)
+	// AgentDel deletes an agent by IP address.
+	AgentDel(string) error
 
-	// NodePost registers a new worker node.
-	NodePost(*Node) (*Node, error)
-
-	// NodeDel deletes a worker node.
-	NodeDel(int64) error
+	// AgentList returns a list of build agents.
+	AgentList() ([]*Agent, error)
 }
