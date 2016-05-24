@@ -28,6 +28,7 @@ const (
 	pathUsers   = "%s/api/users"
 	pathUser    = "%s/api/users/%s"
 	pathAgent   = "%s/api/agents"
+	pathQueue   = "%s/api/builds"
 )
 
 type client struct {
@@ -217,6 +218,14 @@ func (c *client) BuildFork(owner, name string, num int) (*Build, error) {
 func (c *client) BuildLogs(owner, name string, num, job int) (io.ReadCloser, error) {
 	uri := fmt.Sprintf(pathLog, c.base, owner, name, num, job)
 	return c.stream(uri, "GET", nil, nil)
+}
+
+// BuildQueue returns a list of builds in queue.
+func (c *client) BuildQueue() ([]*Activity, error) {
+	var out []*Activity
+	uri := fmt.Sprintf(pathQueue, c.base)
+	err := c.get(uri, &out)
+	return out, err
 }
 
 // Deploy triggers a deployment for an existing build using the
