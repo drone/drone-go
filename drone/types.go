@@ -18,6 +18,7 @@ type Repo struct {
 	FullName    string `json:"full_name"`
 	Avatar      string `json:"avatar_url"`
 	Link        string `json:"link_url"`
+	Kind        string `json:"kind"`
 	Clone       string `json:"clone_url"`
 	Branch      string `json:"default_branch"`
 	Timeout     int64  `json:"timeout"`
