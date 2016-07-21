@@ -8,7 +8,6 @@ Download the package using `go get`:
 
 ```Go
 go get "github.com/drone/drone-go/drone"
-go get "github.com/drone/drone-go/plugin"
 ```
 
 Import the package:
