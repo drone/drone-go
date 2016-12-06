@@ -11,6 +11,9 @@ import (
 	"net/url"
 
 	"golang.org/x/oauth2"
+
+	"github.com/jackspirou/syscerts"
+	"crypto/tls"
 )
 
 const (
@@ -46,6 +49,12 @@ func NewClient(uri string) Client {
 func NewClientToken(uri, token string) Client {
 	config := new(oauth2.Config)
 	auther := config.Client(oauth2.NoContext, &oauth2.Token{AccessToken: token})
+
+	// Add CA certs
+	certs := syscerts.SystemRootsPool()
+	tlsConfig := &tls.Config{RootCAs: certs}
+	auther.Transport = &http.Transport{TLSClientConfig: tlsConfig}
+
 	return &client{auther, uri}
 }
 
