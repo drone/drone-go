@@ -253,6 +253,14 @@ func (c *client) SecretDel(owner, name, secret string) error {
 	return c.delete(uri)
 }
 
+// SecretList lists secrets in a repository.
+func (c *client) SecretList(owner, name string) ([]*Secret, error) {
+	var out []*Secret
+	uri := fmt.Sprintf(pathSecrets, c.base, owner, name)
+	err := c.get(uri, &out)
+	return out, err
+}
+
 // Sign returns a cryptographic signature for the input string.
 func (c *client) Sign(owner, name string, in []byte) ([]byte, error) {
 	buf := bytes.Buffer{}

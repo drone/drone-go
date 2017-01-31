@@ -81,6 +81,9 @@ type Client interface {
 	// SecretDel deletes a named repository secret.
 	SecretDel(string, string, string) error
 
+	// SecretList returns a list of all secrets in the repository
+	SecretList(string, string) ([]*Secret, error)
+
 	// Agent returns an agent by IP address.
 	Agent(string) (*Agent, error)
 
