@@ -79,8 +79,8 @@ type Secret struct {
 	Value      string   `json:"value"`
 	Images     []string `json:"image"`
 	Events     []string `json:"event"`
-	Conceal    bool     `json:"conceal"`
 	SkipVerify bool     `json:"skip_verify"`
+	Conceal    bool     `json:"conceal"`
 }
 
 // Activity represents a build activity. It combines the build details with
