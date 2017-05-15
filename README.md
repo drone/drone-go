@@ -1,49 +1,35 @@
 # drone-go
 
-[![Build Status](http://beta.drone.io/api/badges/drone/drone-go/status.svg)](http://beta.drone.io/drone/drone-go)
-
-drone-go is a Go client library for accessing the Drone [API](http://readme.drone.io/devs/api/builds/) and writing [plugins](http://readme.drone.io/plugins/).
-
-Download the package using `go get`:
-
 ```Go
-go get "github.com/drone/drone-go/drone"
-```
+import (
+	"github.com/drone/drone-go/drone"
+	"golang.org/x/oauth2"
+)
 
-Import the package:
-
-```Go
-import "github.com/drone/drone-go/drone"
-```
-
-Create the client:
-
-```Go
 const (
 	token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 	host  = "http://drone.company.com"
 )
 
-client := drone.NewClientToken(host, token)
-```
+func main() {
+	// create an http client with oauth authentication.
+	config := new(oauth2.Config)
+	auther := config.Client(
+		oauth2.NoContext,
+		&oauth2.Token{
+			AccessToken: token,
+		},
+	)
 
-Get the current user:
+	// create the drone client with authenticator
+	client := drone.NewClient(host, auther)
 
-```Go
-user, err := client.Self()
-fmt.Println(user)
-```
+	// gets the current user
+	user, err := client.Self()
+	fmt.Println(user, err)
 
-Get the repository list:
-
-```Go
-repos, err := client.RepoList()
-fmt.Println(repos)
-```
-
-Get the named repository:
-
-```Go
-repo, err := client.Repo("drone", "drone-go")
-fmt.Println(repo)
+	// gets the named repository information
+	repo, err := client.Repo("drone", "drone-go")
+	fmt.Println(repo, err)
+}
 ```
