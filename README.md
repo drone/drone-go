@@ -1,9 +1,12 @@
 # drone-go
 
 ```Go
+package main
+
 import (
 	"github.com/drone/drone-go/drone"
 	"golang.org/x/oauth2"
+	"fmt"
 )
 
 const (
