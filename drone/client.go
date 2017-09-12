@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -89,12 +90,12 @@ type client struct {
 
 // New returns a client at the specified url.
 func New(uri string) Client {
-	return &client{http.DefaultClient, uri}
+	return &client{http.DefaultClient, strings.TrimSuffix(uri, "/")}
 }
 
 // NewClient returns a client at the specified url.
 func NewClient(uri string, cli *http.Client) Client {
-	return &client{cli, uri}
+	return &client{cli, strings.TrimSuffix(uri, "/")}
 }
 
 // Self returns the currently authenticated user.
@@ -395,7 +396,6 @@ func (c *client) RepoMove(owner, name, newFullName string) error {
 	uri := fmt.Sprintf(pathRepoMove, c.addr, owner, name, newFullName)
 	return c.post(uri, nil, nil)
 }
-
 
 // helper function for making an http DELETE request.
 func (c *client) delete(rawurl string) error {
