@@ -27,6 +27,7 @@ const (
 	pathDecline        = "%s/api/repos/%s/%s/builds/%d/decline"
 	pathJob            = "%s/api/repos/%s/%s/builds/%d/%d"
 	pathLog            = "%s/api/repos/%s/%s/logs/%d/%d"
+	pathLogPurge       = "%s/api/repos/%s/%s/logs/%d"
 	pathRepoSecrets    = "%s/api/repos/%s/%s/secrets"
 	pathRepoSecret     = "%s/api/repos/%s/%s/secrets/%s"
 	pathRepoRegistries = "%s/api/repos/%s/%s/registry"
@@ -307,6 +308,13 @@ func (c *client) Deploy(owner, name string, num int, env string, params map[stri
 	uri := fmt.Sprintf(pathBuild, c.addr, owner, name, num)
 	err := c.post(uri+"?"+val.Encode(), nil, out)
 	return out, err
+}
+
+// LogsPurge purges the build logs for the specified build.
+func (c *client) LogsPurge(owner, name string, num int) error {
+	uri := fmt.Sprintf(pathLogPurge, c.addr, owner, name, num)
+	err := c.delete(uri)
+	return err
 }
 
 // Registry returns a registry by hostname.
