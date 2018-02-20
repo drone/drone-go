@@ -310,6 +310,13 @@ func (c *client) Deploy(owner, name string, num int, env string, params map[stri
 	return out, err
 }
 
+// LogsPurge purges the build logs for the specified build.
+func (c *client) LogsPurge(owner, name string, num int) error {
+	uri := fmt.Sprintf(pathLogPurge, c.addr, owner, name, num)
+	err := c.delete(uri)
+	return err
+}
+
 // Registry returns a registry by hostname.
 func (c *client) Registry(owner, name, hostname string) (*Registry, error) {
 	out := new(Registry)
