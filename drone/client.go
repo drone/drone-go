@@ -36,6 +36,10 @@ const (
 	pathBuildQueue     = "%s/api/builds"
 	pathServers        = "%s/api/servers"
 	pathServer         = "%s/api/servers/%s"
+	pathScalerPause    = "%s/api/pause"
+	pathScalerResume   = "%s/api/resume"
+	pathVarz           = "%s/varz"
+	pathVersion        = "%s/version"
 )
 
 type client struct {
@@ -398,6 +402,26 @@ func (c *client) ServerList() ([]*Server, error) {
 	var out []*Server
 	uri := fmt.Sprintf(pathServers, c.addr)
 	err := c.get(uri, &out)
+	return out, err
+}
+
+// AutoscalePause pauses the autoscaler.
+func (c *client) AutoscalePause() error {
+	uri := fmt.Sprintf(pathScalerPause, c.addr)
+	return c.post(uri, nil, nil)
+}
+
+// AutoscaleResume resumes the autoscaler.
+func (c *client) AutoscaleResume() error {
+	uri := fmt.Sprintf(pathScalerResume, c.addr)
+	return c.post(uri, nil, nil)
+}
+
+// AutoscaleVersion resumes the autoscaler.
+func (c *client) AutoscaleVersion() (*Version, error) {
+	out := new(Version)
+	uri := fmt.Sprintf(pathVersion, c.addr)
+	err := c.get(uri, out)
 	return out, err
 }
 

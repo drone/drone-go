@@ -160,4 +160,11 @@ type (
 		Updated  int64    `json:"updated"`
 		Logs     string   `json:"logs,omitempty"`
 	}
+
+	// Version provides system version details.
+	Version struct {
+		Source  string `json:"source,omitempty"`
+		Version string `json:"version,omitempty"`
+		Commit  string `json:"commit,omitempty"`
+	}
 )

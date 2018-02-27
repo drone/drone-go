@@ -121,4 +121,13 @@ type Client interface {
 
 	// ServerList returns a list of all active build servers.
 	ServerList() ([]*Server, error)
+
+	// AutoscalePause pauses the autoscaler.
+	AutoscalePause() error
+
+	// AutoscaleResume resumes the autoscaler.
+	AutoscaleResume() error
+
+	// AutoscaleVersion returns the autoscaler version.
+	AutoscaleVersion() (*Version, error)
 }
