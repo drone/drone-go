@@ -86,6 +86,9 @@ type Client interface {
 	// target environment.
 	Deploy(string, string, int, string, map[string]string) (*Build, error)
 
+	// LogsPurge purges the build logs for the specified build.
+	LogsPurge(string, string, int) error
+
 	// Registry returns a registry by hostname.
 	Registry(owner, name, hostname string) (*Registry, error)
 
