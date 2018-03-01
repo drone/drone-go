@@ -125,6 +125,12 @@ type Client interface {
 	// ServerList returns a list of all active build servers.
 	ServerList() ([]*Server, error)
 
+	// ServerCreate creates a new server.
+	ServerCreate() (*Server, error)
+
+	// ServerDelete terminates a server.
+	ServerDelete(name string) error
+
 	// AutoscalePause pauses the autoscaler.
 	AutoscalePause() error
 

@@ -413,6 +413,20 @@ func (c *client) ServerList() ([]*Server, error) {
 	return out, err
 }
 
+// ServerCreate creates a new server.
+func (c *client) ServerCreate() (*Server, error) {
+	out := new(Server)
+	uri := fmt.Sprintf(pathServers, c.addr)
+	err := c.post(uri, nil, out)
+	return out, err
+}
+
+// ServerDelete terminates a server.
+func (c *client) ServerDelete(name string) error {
+	uri := fmt.Sprintf(pathServer, c.addr, name)
+	return c.delete(uri)
+}
+
 // AutoscalePause pauses the autoscaler.
 func (c *client) AutoscalePause() error {
 	uri := fmt.Sprintf(pathScalerPause, c.addr)
