@@ -1,5 +1,10 @@
 package drone
 
+import (
+	"net/url"
+	"strconv"
+)
+
 type (
 	// User represents a user account.
 	User struct {
@@ -169,4 +174,16 @@ type (
 		Version string `json:"version,omitempty"`
 		Commit  string `json:"commit,omitempty"`
 	}
+
+	ListParams struct {
+		Page  int
+		Limit int
+	}
 )
+
+func (lp *ListParams) URLValues() url.Values {
+	return url.Values{
+		"page":  []string{strconv.Itoa(lp.Page)},
+		"limit": []string{strconv.Itoa(lp.Limit)},
+	}
+}

@@ -62,7 +62,7 @@ type Client interface {
 
 	// BuildList returns a list of recent builds for the
 	// the specified repository.
-	BuildList(string, string) ([]*Build, error)
+	BuildList(string, string, *ListParams) ([]*Build, error)
 
 	// BuildQueue returns a list of enqueued builds.
 	BuildQueue() ([]*Activity, error)

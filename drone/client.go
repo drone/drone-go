@@ -243,9 +243,9 @@ func (c *client) BuildLast(owner, name, branch string) (*Build, error) {
 
 // BuildList returns a list of recent builds for the
 // the specified repository.
-func (c *client) BuildList(owner, name string, params map[string]string) ([]*Build, error) {
+func (c *client) BuildList(owner, name string, params *ListParams) ([]*Build, error) {
 	var out []*Build
-	val := mapValues(params)
+	val := params.URLValues()
 	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name)
 	err := c.get(uri+"?"+val.Encode(), &out)
 	return out, err
