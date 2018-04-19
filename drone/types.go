@@ -181,6 +181,13 @@ type (
 	}
 )
 
+func NewListParams() *ListParams {
+	return &ListParams{
+		Page:  1,
+		Limit: 50,
+	}
+}
+
 func (lp *ListParams) URLValues() url.Values {
 	return url.Values{
 		"page":  []string{strconv.Itoa(lp.Page)},
