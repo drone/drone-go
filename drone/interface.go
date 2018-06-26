@@ -1,6 +1,9 @@
 package drone
 
-import "net/http"
+import (
+	"io"
+	"net/http"
+)
 
 // Client is used to communicate with a Drone server.
 type Client interface {
@@ -38,6 +41,9 @@ type Client interface {
 	// RepoListOpts returns a list of all repositories to which the user has
 	// explicit access in the host system.
 	RepoListOpts(bool, bool) ([]*Repo, error)
+
+	// BuildLogs reads logs from a build job.
+	BuildLogs(owner, name string, num, job int) (io.ReadCloser, error)
 
 	// RepoPost activates a repository.
 	RepoPost(string, string) (*Repo, error)
