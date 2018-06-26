@@ -78,6 +78,7 @@ type (
 		Reviewer  string  `json:"reviewed_by"`
 		Reviewed  int64   `json:"reviewed_at"`
 		Procs     []*Proc `json:"procs,omitempty"`
+		Jobs      []*Job  `json:"jobs,omitempty"`
 	}
 
 	// Proc represents a process in the build pipeline.
@@ -96,6 +97,18 @@ type (
 		Platform string            `json:"platform,omitempty"`
 		Environ  map[string]string `json:"environ,omitempty"`
 		Children []*Proc           `json:"children,omitempty"`
+	}
+
+	// Job represents a build job.
+	Job struct {
+		ID          int               `json:"id"`
+		Number      int               `json:"number"`
+		Status      string            `json:"status"`
+		EnqueuedAt  int64             `json:"enqueued_at"`
+		StartedAt   int64             `json:"started_at,omitempty"`
+		FinishedAt  int64             `json:"finished_at,omitempty"`
+		ExitCode    int               `json:"exit_code,omitempty"`
+		Environment map[string]string `json:"environment,omitempty"`
 	}
 
 	// Registry represents a docker registry with credentials.
