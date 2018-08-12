@@ -12,30 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package drone
+package registry
 
-// Event values.
-const (
-	EventPush   = "push"
-	EventPull   = "pull_request"
-	EventTag    = "tag"
-	EventDeploy = "deployment"
+import (
+	"context"
+
+	"github.com/drone/drone-go/drone"
 )
 
-// Status values.
-const (
-	StatusBlocked = "blocked"
-	StatusSkipped = "skipped"
-	StatusPending = "pending"
-	StatusRunning = "running"
-	StatusSuccess = "success"
-	StatusFailure = "failure"
-	StatusKilled  = "killed"
-	StatusError   = "error"
-)
+// V1 is version 1 of the registry API
+const V1 = "application/vnd.drone.registry.v1+json"
 
-// Encryption algorithms
-const (
-	EncryptAesgcm    = "aesgcm"
-	EncryptSecretbox = "secretbox"
+type (
+	// Request defines a registry request.
+	Request struct {
+		Repo  drone.Repo  `json:"repo,omitempty"`
+		Build drone.Build `json:"build,omitempty"`
+	}
+
+	// Plugin responds to a registry request.
+	Plugin interface {
+		List(context.Context, *Request) ([]*drone.Registry, error)
+	}
 )
