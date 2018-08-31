@@ -104,6 +104,8 @@ type (
 		// fields added in 0.9
 		//
 
+		Before string `json:"before"`
+		After  string `json:"after"`
 		Source string `json:"source"`
 		Target string `json:"target"`
 		Fork   string `json:"fork"`
@@ -211,6 +213,12 @@ type (
 		Branch  string `json:"branch"`
 		Created int64  `json:"created"`
 		Updated int64  `json:"updated"`
+	}
+
+	// Config represents a config file.
+	Config struct {
+		Data string `json:"data"`
+		Kind string `json:"kind"`
 	}
 
 	// Version provides system version details.
