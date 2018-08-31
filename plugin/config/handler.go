@@ -91,6 +91,10 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 404)
 		return
 	}
+	if res == nil {
+		w.WriteHeader(204)
+		return
+	}
 	out, _ := json.Marshal(res)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
