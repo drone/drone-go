@@ -1,0 +1,14 @@
+{
+    "id": 3,
+    "repo_id": 47,
+    "name": "every-10-minutes",
+    "expr": "0 */5 * * * *",
+    "next": 1537463700,
+    "prev": 1537463400,
+    "event": "push",
+    "branch": "master",
+    "disabled": false,
+    "created": 1537302981,
+    "updated": 1537302981,
+    "version": 0
+}

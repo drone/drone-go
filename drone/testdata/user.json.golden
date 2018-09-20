@@ -1,0 +1,14 @@
+{
+    "id": 2,
+    "login": "octocat",
+    "email": "octocat@github.com",
+    "machine": false,
+    "admin": true,
+    "active": true,
+    "avatar": "https://avatars1.githubusercontent.com/u/817538?v=4",
+    "syncing": false,
+    "synced": 1537375999,
+    "created": 1537221751,
+    "updated": 1537221751,
+    "last_login": 1537221751
+}

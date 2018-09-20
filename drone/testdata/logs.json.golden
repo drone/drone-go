@@ -1,0 +1,37 @@
+[
+    {
+        "pos": 0,
+        "out": "Initialized empty Git repository in /drone/src/github.com/octocat/hello-world/.git/\n",
+        "time": 0
+    },
+    {
+        "pos": 1,
+        "out": "+ git fetch origin +refs/heads/master:\n",
+        "time": 0
+    },
+    {
+        "pos": 2,
+        "out": "From https://github.com/octocat/hello-world\n",
+        "time": 0
+    },
+    {
+        "pos": 3,
+        "out": " * branch            master     -\u003e FETCH_HEAD\n",
+        "time": 0
+    },
+    {
+        "pos": 4,
+        "out": " * [new branch]      master     -\u003e origin/master\n",
+        "time": 0
+    },
+    {
+        "pos": 5,
+        "out": "+ git checkout 6783f72b40ea0af776d2ec40ef7e01c58b4794c3 -b master\n",
+        "time": 1
+    },
+    {
+        "pos": 6,
+        "out": "Already on 'master'\n",
+        "time": 1
+    }
+]
