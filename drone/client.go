@@ -396,9 +396,9 @@ func (c *client) CronCreate(owner, name string, in *Cron) (*Cron, error) {
 }
 
 // CronDisable disables a cronjob.
-func (c *client) CronUpdate(owner, name, in *Cron) (*Cron, error) {
+func (c *client) CronUpdate(owner, name, cron string, in *CronPatch) (*Cron, error) {
 	out := new(Cron)
-	uri := fmt.Sprintf(pathCron, c.addr, owner, in.Name)
+	uri := fmt.Sprintf(pathCron, c.addr, owner, cron)
 	err := c.patch(uri, in, out)
 	return out, err
 }

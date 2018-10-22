@@ -142,7 +142,7 @@ type Client interface {
 	CronDelete(owner, name, cron string) error
 
 	// CronUpdate enables a cronjob.
-	CronUpdate(owner, name, in *Cron) (*Cron, error)
+	CronUpdate(owner, name, cron string, in *CronPatch) (*Cron, error)
 
 	// Sign signs the yaml file.
 	Sign(owner, name, file string) (string, error)
