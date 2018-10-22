@@ -409,15 +409,15 @@ func (c *client) Queue() ([]*Stage, error) {
 	return out, err
 }
 
-// QueuePause pauses queue operations.
-func (c *client) QueuePause() error {
+// QueueResume resumes queue operations.
+func (c *client) QueueResume() error {
 	uri := fmt.Sprintf(pathQueue, c.addr)
 	err := c.post(uri, nil, nil)
 	return err
 }
 
-// QueueResume resumes queue operations.
-func (c *client) QueueResume() error {
+// QueuePause pauses queue operations.
+func (c *client) QueuePause() error {
 	uri := fmt.Sprintf(pathQueue, c.addr)
 	err := c.delete(uri)
 	return err
