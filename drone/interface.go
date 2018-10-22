@@ -141,11 +141,8 @@ type Client interface {
 	// CronDelete deletes a cronjob.
 	CronDelete(owner, name, cron string) error
 
-	// CronEnable enables a cronjob.
-	CronEnable(owner, name, cron string) error
-
-	// CronDisable disables a cronjob.
-	CronDisable(owner, name, cron string) error
+	// CronUpdate enables a cronjob.
+	CronUpdate(owner, name, in *Cron) (*Cron, error)
 
 	// Sign signs the yaml file.
 	Sign(owner, name, file string) (string, error)
