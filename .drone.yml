@@ -6,5 +6,5 @@ pipeline:
   build:
     image: golang:1.6
     commands:
-      - go get -t -v
+      - go get -t -v ./drone
       - go test -v github.com/drone/drone-go/drone
