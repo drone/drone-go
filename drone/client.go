@@ -34,7 +34,7 @@ const (
 	pathRepoMove        = "%s/api/repos/%s/%s/move?to=%s"
 	pathChown           = "%s/api/repos/%s/%s/chown"
 	pathRepair          = "%s/api/repos/%s/%s/repair"
-	pathBuilds          = "%s/api/repos/%s/%s/builds"
+	pathBuilds          = "%s/api/repos/%s/%s/builds?page=%d"
 	pathBuild           = "%s/api/repos/%s/%s/builds/%v"
 	pathApprove         = "%s/api/repos/%s/%s/builds/%d/approve/%d"
 	pathDecline         = "%s/api/repos/%s/%s/builds/%d/decline/%d"
@@ -218,9 +218,9 @@ func (c *client) BuildLast(owner, name, branch string) (*Build, error) {
 
 // BuildList returns a list of recent builds for the
 // the specified repository.
-func (c *client) BuildList(owner, name string) ([]*Build, error) {
+func (c *client) BuildList(owner, name string, page int) ([]*Build, error) {
 	var out []*Build
-	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name)
+	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name, page)
 	err := c.get(uri, &out)
 	return out, err
 }
