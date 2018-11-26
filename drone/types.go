@@ -261,6 +261,7 @@ type (
 		CACert    []byte            `json:"ca_cert"`
 		TLSKey    []byte            `json:"tls_key"`
 		TLSCert   []byte            `json:"tls_cert"`
+		TLSName   string            `json:"tls_name"`
 		Paused    bool              `json:"paused"`
 		Protected bool              `json:"protected"`
 		Created   int64             `json:"created"`
