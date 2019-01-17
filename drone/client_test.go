@@ -157,7 +157,7 @@ func TestUserUpdate(t *testing.T) {
 	defer ts.Close()
 
 	client := New(ts.URL)
-	got, err := client.UserUpdate(&User{Login: "octocat"})
+	got, err := client.UserUpdate("octocat", &UserPatch{})
 	if err != nil {
 		t.Error(err)
 		return
@@ -436,29 +436,29 @@ func TestCronList(t *testing.T) {
 	}
 }
 
-func TestCronDisable(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
-	defer ts.Close()
+// func TestCronDisable(t *testing.T) {
+// 	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
+// 	defer ts.Close()
 
-	client := New(ts.URL)
-	err := client.CronDisable("octocat", "hello-world", "nightly")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-}
+// 	client := New(ts.URL)
+// 	err := client.CronDisable("octocat", "hello-world", "nightly")
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// }
 
-func TestCronEnable(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
-	defer ts.Close()
+// func TestCronEnable(t *testing.T) {
+// 	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
+// 	defer ts.Close()
 
-	client := New(ts.URL)
-	err := client.CronEnable("octocat", "hello-world", "nightly")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-}
+// 	client := New(ts.URL)
+// 	err := client.CronEnable("octocat", "hello-world", "nightly")
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// }
 
 //
 // builds
@@ -525,7 +525,7 @@ func TestBuildList(t *testing.T) {
 	defer ts.Close()
 
 	client := New(ts.URL)
-	got, err := client.BuildList("octocat", "hello-world")
+	got, err := client.BuildList("octocat", "hello-world", ListOptions{})
 	if err != nil {
 		t.Error(err)
 		return
@@ -548,33 +548,33 @@ func TestBuildList(t *testing.T) {
 	}
 }
 
-func TestBuildQueue(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
-	defer ts.Close()
+// func TestBuildQueue(t *testing.T) {
+// 	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
+// 	defer ts.Close()
 
-	client := New(ts.URL)
-	got, err := client.BuildQueue()
-	if err != nil {
-		t.Error(err)
-		return
-	}
+// 	client := New(ts.URL)
+// 	got, err := client.BuildQueue()
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
 
-	in, err := ioutil.ReadFile("testdata/builds.json.golden")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	want := []*Build{}
-	err = json.Unmarshal(in, &want)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if diff := cmp.Diff(got, want); diff != "" {
-		t.Errorf("Unexpected response")
-		t.Log(diff)
-	}
-}
+// 	in, err := ioutil.ReadFile("testdata/builds.json.golden")
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// 	want := []*Build{}
+// 	err = json.Unmarshal(in, &want)
+// 	if err != nil {
+// 		t.Error(err)
+// 		return
+// 	}
+// 	if diff := cmp.Diff(got, want); diff != "" {
+// 		t.Errorf("Unexpected response")
+// 		t.Log(diff)
+// 	}
+// }
 
 func TestBuildRestart(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
