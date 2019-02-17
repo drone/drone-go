@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package admission
+package webhook
 
 import (
 	"encoding/json"
@@ -25,8 +25,8 @@ import (
 )
 
 // Handler returns a http.Handler that accepts JSON-encoded
-// HTTP requests for a user, invokes the underlying admission
-// plugin, and writes the JSON-encoded config to the HTTP response.
+// HTTP requests for a webhook, invokes the underlying webhook
+// plugin, and writes the JSON-encoded data to the HTTP response.
 //
 // The handler verifies the authenticity of the HTTP request
 // using the http-signature, and returns a 400 Bad Request if
@@ -56,19 +56,19 @@ type handler struct {
 func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	signature, err := httpsignatures.FromRequest(r)
 	if err != nil {
-		p.logger.Debugf("admission: invalid or missing signature in http.Request")
+		p.logger.Debugf("webhook: invalid or missing signature in http.Request")
 		http.Error(w, "Invalid or Missing Signature", 400)
 		return
 	}
 	if !signature.IsValid(p.secret, r) {
-		p.logger.Debugf("admission: invalid signature in http.Request")
+		p.logger.Debugf("webhook: invalid signature in http.Request")
 		http.Error(w, "Invalid Signature", 400)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		p.logger.Debugf("admission: cannot read http.Request body")
+		p.logger.Debugf("webhook: cannot read http.Request body")
 		w.WriteHeader(400)
 		return
 	}
@@ -76,25 +76,15 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	req := &Request{}
 	err = json.Unmarshal(body, req)
 	if err != nil {
-		p.logger.Debugf("admission: cannot unmarshal http.Request body")
+		p.logger.Debugf("webhook: cannot unmarshal http.Request body")
 		http.Error(w, "Invalid Input", 400)
 		return
 	}
 
-	res, err := p.plugin.Admit(r.Context(), req)
+	err = p.plugin.Deliver(r.Context(), req)
 	if err != nil {
-		p.logger.Debugf("admission: denied: %s: %s",
-			req.User.Login,
-			err,
-		)
-		http.Error(w, err.Error(), 403)
-		return
-	}
-	if res == nil {
+		http.Error(w, err.Error(), 500)
+	} else {
 		w.WriteHeader(204)
-		return
 	}
-	out, _ := json.Marshal(res)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(out)
 }
