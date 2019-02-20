@@ -1,9 +1,28 @@
-workspace:
-  base: /go
-  path: src/github.com/drone/drone-go
+---
+kind: pipeline
+name: testing
 
-pipeline:
-  build:
-    image: golang:1.6
-    commands:
-      - go test -v github.com/drone/drone-go/drone
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: vet
+  image: golang:1.11
+  commands:
+  - go vet ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: test
+  image: golang:1.11
+  commands:
+  - go test -cover ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+volumes:
+- name: gopath
+  temp: {}
