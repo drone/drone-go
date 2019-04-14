@@ -75,6 +75,9 @@ type Client interface {
 	// RepoDisable disables a repository.
 	RepoDisable(namespace, name string) error
 
+	// RepoDelete permanetnly deletes a repository.
+	RepoDelete(namespace, name string) error
+
 	// Build returns a repository build by number.
 	Build(namespace, name string, build int) (*Build, error)
 
@@ -92,6 +95,9 @@ type Client interface {
 	// BuildCancel stops the specified running job for
 	// given build.
 	BuildCancel(namespace, name string, build int) error
+
+	// BuildPurge purges the build history.
+	BuildPurge(namespace, name string, before int) error
 
 	// Approve approves a blocked build stage.
 	Approve(namespace, name string, build, stage int) error

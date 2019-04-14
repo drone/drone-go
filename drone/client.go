@@ -189,6 +189,13 @@ func (c *client) RepoDisable(owner, name string) error {
 	return err
 }
 
+// RepoDelete permanently deletes a repository.
+func (c *client) RepoDelete(owner, name string) error {
+	uri := fmt.Sprintf(pathRepo+"?remove=true", c.addr, owner, name)
+	err := c.delete(uri)
+	return err
+}
+
 // RepoUpdate updates a repository.
 func (c *client) RepoUpdate(owner, name string, in *RepoPatch) (*Repo, error) {
 	out := new(Repo)
@@ -254,6 +261,14 @@ func (c *client) BuildRestart(owner, name string, build int, params map[string]s
 // BuildCancel cancels the running job.
 func (c *client) BuildCancel(owner, name string, build int) error {
 	uri := fmt.Sprintf(pathBuild, c.addr, owner, name, build)
+	err := c.delete(uri)
+	return err
+}
+
+// BuildPurge purges the build history.
+func (c *client) BuildPurge(owner, name string, before int) error {
+	param := fmt.Sprintf("before=%d", before)
+	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name, param)
 	err := c.delete(uri)
 	return err
 }
