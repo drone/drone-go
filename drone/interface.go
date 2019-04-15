@@ -132,6 +132,24 @@ type Client interface {
 	// SecretDelete deletes a secret.
 	SecretDelete(owner, name, secret string) error
 
+	// OrgSecret returns a secret by name.
+	OrgSecret(namespace, secret string) (*Secret, error)
+
+	// OrgSecretList returns a list of all repository secrets.
+	OrgSecretList(namespace string) ([]*Secret, error)
+
+	// OrgSecretListAll returns a list of all repository secrets.
+	OrgSecretListAll() ([]*Secret, error)
+
+	// OrgSecretCreate creates a registry.
+	OrgSecretCreate(namespace string, secret *Secret) (*Secret, error)
+
+	// OrgSecretUpdate updates a registry.
+	OrgSecretUpdate(namespace string, secret *Secret) (*Secret, error)
+
+	// OrgSecretDelete deletes a secret.
+	OrgSecretDelete(namespace, name string) error
+
 	// Cron returns a cronjob by name.
 	Cron(owner, name, cron string) (*Cron, error)
 
