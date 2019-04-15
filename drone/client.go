@@ -414,7 +414,8 @@ func (c *client) OrgSecretList(namespace string) ([]*Secret, error) {
 // OrgSecretListAll returns a list of all repository secrets.
 func (c *client) OrgSecretListAll() ([]*Secret, error) {
 	var out []*Secret
-	err := c.get(pathSecrets, &out)
+	uri := fmt.Sprintf(pathSecrets, c.addr)
+	err := c.get(uri, &out)
 	return out, err
 }
 
