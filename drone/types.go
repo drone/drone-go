@@ -108,6 +108,7 @@ type (
 		AuthorAvatar string            `json:"author_avatar"`
 		Sender       string            `json:"sender"`
 		Params       map[string]string `json:"params,omitempty"`
+		Cron         string            `json:"cron,omitempty"`
 		Deploy       string            `json:"deploy_to,omitempty"`
 		Started      int64             `json:"started"`
 		Finished     int64             `json:"finished"`
