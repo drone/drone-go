@@ -81,6 +81,9 @@ type Client interface {
 	// Build returns a repository build by number.
 	Build(namespace, name string, build int) (*Build, error)
 
+	// Manually build
+	BuildCreate(namespace, name, branch, commit string) (*Build, error)
+
 	// BuildLast returns the latest build by branch. An
 	// empty branch will result in the default branch.
 	BuildLast(namespace, name, branch string) (*Build, error)

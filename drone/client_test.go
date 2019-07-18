@@ -492,6 +492,18 @@ func TestBuild(t *testing.T) {
 	}
 }
 
+func TestBuildCreate(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
+	defer ts.Close()
+
+	client := New(ts.URL)
+	_, err := client.BuildCreate("octocat", "hello-world", "", "")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+}
+
 func TestBuildLast(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
 	defer ts.Close()
