@@ -36,7 +36,6 @@ const (
 	pathRepair           = "%s/api/repos/%s/%s/repair"
 	pathBuilds           = "%s/api/repos/%s/%s/builds?%s"
 	pathBuild            = "%s/api/repos/%s/%s/builds/%v"
-	pathBuildCreate      = "%s/api/repos/%s/%s/builds"
 	pathApprove          = "%s/api/repos/%s/%s/builds/%d/approve/%d"
 	pathDecline          = "%s/api/repos/%s/%s/builds/%d/decline/%d"
 	pathPromote          = "%s/api/repos/%s/%s/builds/%d/promote?%s"
@@ -233,8 +232,8 @@ func (c *client) Build(owner, name string, num int) (*Build, error) {
 // Manually build.
 func (c *client) BuildCreate(owner, name string, branch string, commit string) (*Build, error) {
 	out := new(Build)
-	uri := fmt.Sprintf(pathBuildCreate, c.addr, owner, name)
-	uri += "?branch=" + branch + "&commit=" + commit
+	query := "branch=" + branch + "&commit=" + commit
+	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name, query)
 	err := c.post(uri, nil, out)
 	return out, err
 }
