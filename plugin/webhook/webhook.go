@@ -23,10 +23,26 @@ import (
 // V1 is version 1 of the admission API
 const V1 = "application/vnd.drone.webhook.v1+json"
 
+// Webhook event types.
+const (
+	EventBuild = "build"
+	EventRepo  = "repo"
+	EventUser  = "user"
+)
+
+// Webhook action types.
+const (
+	ActionCreated  = "created"
+	ActionUpdated  = "updated"
+	ActionDeleted  = "deleted"
+	ActionEnabled  = "enabled"
+	ActionDisabled = "disabled"
+)
+
 type (
 	// Request defines a webhook request.
 	Request struct {
-		Event  string       `json:"-"`
+		Event  string       `json:"event"`
 		Action string       `json:"action"`
 		User   *drone.User  `json:"user,omitempty"`
 		Repo   *drone.Repo  `json:"repo,omitempty"`
