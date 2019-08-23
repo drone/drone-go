@@ -229,7 +229,7 @@ func (c *client) Build(owner, name string, num int) (*Build, error) {
 	return out, err
 }
 
-// Manually build.
+// BuildCreate manually build.
 func (c *client) BuildCreate(owner, name string, branch string, commit string) (*Build, error) {
 	out := new(Build)
 	query := "branch=" + branch + "&commit=" + commit
