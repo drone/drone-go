@@ -78,6 +78,8 @@ type (
 		Trusted    *bool   `json:"trusted,omitempty"`
 		Timeout    *int64  `json:"timeout,omitempty"`
 		Visibility *string `json:"visibility,omitempty"`
+		IgnoreForks bool   `json:"ignore_forks"`
+		IgnorePulls bool   `json:"ignore_pull_requests"`
 		Counter    *int    `json:"counter,omitempty"`
 	}
 
