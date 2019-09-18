@@ -30,6 +30,7 @@ const (
 	pathSelf             = "%s/api/user"
 	pathFeed             = "%s/api/user/feed"
 	pathRepos            = "%s/api/user/repos"
+	pathIncomplete       = "%s/api/builds/incomplete"
 	pathRepo             = "%s/api/repos/%s/%s"
 	pathRepoMove         = "%s/api/repos/%s/%s/move?to=%s"
 	pathChown            = "%s/api/repos/%s/%s/chown"
@@ -149,6 +150,14 @@ func (c *client) UserDelete(login string) error {
 	uri := fmt.Sprintf(pathUser, c.addr, login)
 	err := c.delete(uri)
 	return err
+}
+
+// Incomplete returns a list of incomplete builds.
+func (c *client) Incomplete() ([]*Repo, error) {
+	var out []*Repo
+	uri := fmt.Sprintf(pathIncomplete, c.addr)
+	err := c.get(uri, &out)
+	return out, err
 }
 
 // Repo returns a repository by name.
