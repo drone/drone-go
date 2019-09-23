@@ -430,8 +430,8 @@ func (c *client) OrgSecretCreate(namespace string, in *Secret) (*Secret, error) 
 // OrgSecretUpdate updates a registry.
 func (c *client) OrgSecretUpdate(namespace string, in *Secret) (*Secret, error) {
 	out := new(Secret)
-	uri := fmt.Sprintf(pathSecretsNamespace, c.addr, namespace)
-	err := c.post(uri, in, out)
+	uri := fmt.Sprintf(pathSecretsName, c.addr, namespace, in.Name)
+	err := c.patch(uri, in, out)
 	return out, err
 }
 
