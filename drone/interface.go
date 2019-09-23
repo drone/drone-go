@@ -49,6 +49,9 @@ type Client interface {
 	// UserDelete deletes a user account.
 	UserDelete(login string) error
 
+	// Incomplete returns a list of incomplete builds.
+	Incomplete() ([]*Repo, error)
+
 	// Repo returns a repository by name.
 	Repo(namespace, name string) (*Repo, error)
 

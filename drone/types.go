@@ -69,6 +69,7 @@ type (
 		Version     int64  `json:"version"`
 		Signer      string `json:"signer,omitempty"`
 		Secret      string `json:"secret,omitempty"`
+		Build       Build  `json:"build,omitempty"`
 	}
 
 	// RepoPatch defines a repository patch request.
