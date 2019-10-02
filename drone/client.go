@@ -31,6 +31,7 @@ const (
 	pathFeed             = "%s/api/user/feed"
 	pathRepos            = "%s/api/user/repos"
 	pathIncomplete       = "%s/api/builds/incomplete"
+	pathReposAll         = "%s/api/repos"
 	pathRepo             = "%s/api/repos/%s/%s"
 	pathRepoMove         = "%s/api/repos/%s/%s/move?to=%s"
 	pathChown            = "%s/api/repos/%s/%s/chown"
@@ -75,12 +76,16 @@ type client struct {
 
 type ListOptions struct {
 	Page int
+	Size int
 }
 
 func encodeListOptions(opts ListOptions) string {
 	params := url.Values{}
 	if opts.Page != 0 {
 		params.Set("page", strconv.Itoa(opts.Page))
+	}
+	if opts.Size != 0 {
+		params.Set("per_page", strconv.Itoa(opts.Size))
 	}
 	return params.Encode()
 }
@@ -183,6 +188,18 @@ func (c *client) RepoListSync() ([]*Repo, error) {
 	var out []*Repo
 	uri := fmt.Sprintf(pathRepos, c.addr)
 	err := c.post(uri, nil, &out)
+	return out, err
+}
+
+// RepoListAll returns a paginated list of all repositories
+// stored in the database.
+func (c *client) RepoListAll(opts ListOptions) ([]*Repo, error) {
+	var out []*Repo
+	uri := fmt.Sprintf(pathReposAll, c.addr)
+	if opt := encodeListOptions(opts); opt != "" {
+		uri = uri + "?" + opt
+	}
+	err := c.get(uri, &out)
 	return out, err
 }
 

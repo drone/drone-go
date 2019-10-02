@@ -63,6 +63,10 @@ type Client interface {
 	// the user has explicit access in the host system.
 	RepoListSync() ([]*Repo, error)
 
+	// RepoListAll returns a list of all repositories in
+	// the database. This is only available to system admins.
+	RepoListAll(opts ListOptions) ([]*Repo, error)
+
 	// RepoEnable activates a repository.
 	RepoEnable(namespace, name string) (*Repo, error)
 
