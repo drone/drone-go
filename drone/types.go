@@ -61,6 +61,8 @@ type (
 		Protected   bool   `json:"protected"`
 		IgnoreForks bool   `json:"ignore_forks"`
 		IgnorePulls bool   `json:"ignore_pull_requests"`
+		CancelPulls bool   `json:"auto_cancel_pull_requests"`
+		CancelPush  bool   `json:"auto_cancel_pushes"`
 		Timeout     int64  `json:"timeout"`
 		Counter     int64  `json:"counter"`
 		Synced      int64  `json:"synced"`
@@ -74,12 +76,16 @@ type (
 
 	// RepoPatch defines a repository patch request.
 	RepoPatch struct {
-		Config     *string `json:"config_path,omitempty"`
-		Protected  *bool   `json:"protected,omitempty"`
-		Trusted    *bool   `json:"trusted,omitempty"`
-		Timeout    *int64  `json:"timeout,omitempty"`
-		Visibility *string `json:"visibility,omitempty"`
-		Counter    *int    `json:"counter,omitempty"`
+		Config      *string `json:"config_path,omitempty"`
+		Protected   *bool   `json:"protected,omitempty"`
+		Trusted     *bool   `json:"trusted,omitempty"`
+		Timeout     *int64  `json:"timeout,omitempty"`
+		Visibility  *string `json:"visibility,omitempty"`
+		IgnoreForks *bool   `json:"ignore_forks"`
+		IgnorePulls *bool   `json:"ignore_pull_requests"`
+		CancelPulls *bool   `json:"auto_cancel_pull_requests"`
+		CancelPush  *bool   `json:"auto_cancel_pushes"`
+		Counter     *int    `json:"counter,omitempty"`
 	}
 
 	// Build defines a build object.
