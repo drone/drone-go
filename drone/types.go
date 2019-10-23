@@ -117,6 +117,7 @@ type (
 		Params       map[string]string `json:"params,omitempty"`
 		Cron         string            `json:"cron,omitempty"`
 		Deploy       string            `json:"deploy_to,omitempty"`
+		DeployID     int64             `json:"deploy_id,omitempty"`
 		Started      int64             `json:"started"`
 		Finished     int64             `json:"finished"`
 		Created      int64             `json:"created"`
