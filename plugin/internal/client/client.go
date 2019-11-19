@@ -118,10 +118,12 @@ func (s *Client) Do(in, out interface{}) error {
 	}
 
 	res, err := s.client().Do(req)
+	if res != nil && res.Body != nil {
+		defer res.Body.Close()
+	}
 	if err != nil {
 		return err
 	}
-	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
