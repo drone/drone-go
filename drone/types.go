@@ -61,6 +61,8 @@ type (
 		Protected   bool   `json:"protected"`
 		IgnoreForks bool   `json:"ignore_forks"`
 		IgnorePulls bool   `json:"ignore_pull_requests"`
+		CancelPulls bool   `json:"auto_cancel_pull_requests"`
+		CancelPush  bool   `json:"auto_cancel_pushes"`
 		Timeout     int64  `json:"timeout"`
 		Counter     int64  `json:"counter"`
 		Synced      int64  `json:"synced"`
@@ -69,6 +71,7 @@ type (
 		Version     int64  `json:"version"`
 		Signer      string `json:"signer,omitempty"`
 		Secret      string `json:"secret,omitempty"`
+		Build       Build  `json:"build,omitempty"`
 	}
 
 	// RepoPatch defines a repository patch request.
@@ -80,6 +83,8 @@ type (
 		Visibility  *string `json:"visibility,omitempty"`
 		IgnoreForks *bool   `json:"ignore_forks"`
 		IgnorePulls *bool   `json:"ignore_pull_requests"`
+		CancelPulls *bool   `json:"auto_cancel_pull_requests"`
+		CancelPush  *bool   `json:"auto_cancel_pushes"`
 		Counter     *int    `json:"counter,omitempty"`
 	}
 
@@ -112,6 +117,7 @@ type (
 		Params       map[string]string `json:"params,omitempty"`
 		Cron         string            `json:"cron,omitempty"`
 		Deploy       string            `json:"deploy_to,omitempty"`
+		DeployID     int64             `json:"deploy_id,omitempty"`
 		Started      int64             `json:"started"`
 		Finished     int64             `json:"finished"`
 		Created      int64             `json:"created"`

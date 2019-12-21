@@ -30,6 +30,8 @@ const (
 	pathSelf             = "%s/api/user"
 	pathFeed             = "%s/api/user/feed"
 	pathRepos            = "%s/api/user/repos"
+	pathIncomplete       = "%s/api/builds/incomplete"
+	pathReposAll         = "%s/api/repos"
 	pathRepo             = "%s/api/repos/%s/%s"
 	pathRepoMove         = "%s/api/repos/%s/%s/move?to=%s"
 	pathChown            = "%s/api/repos/%s/%s/chown"
@@ -74,12 +76,16 @@ type client struct {
 
 type ListOptions struct {
 	Page int
+	Size int
 }
 
 func encodeListOptions(opts ListOptions) string {
 	params := url.Values{}
 	if opts.Page != 0 {
 		params.Set("page", strconv.Itoa(opts.Page))
+	}
+	if opts.Size != 0 {
+		params.Set("per_page", strconv.Itoa(opts.Size))
 	}
 	return params.Encode()
 }
@@ -151,6 +157,14 @@ func (c *client) UserDelete(login string) error {
 	return err
 }
 
+// Incomplete returns a list of incomplete builds.
+func (c *client) Incomplete() ([]*Repo, error) {
+	var out []*Repo
+	uri := fmt.Sprintf(pathIncomplete, c.addr)
+	err := c.get(uri, &out)
+	return out, err
+}
+
 // Repo returns a repository by name.
 func (c *client) Repo(owner string, name string) (*Repo, error) {
 	out := new(Repo)
@@ -174,6 +188,18 @@ func (c *client) RepoListSync() ([]*Repo, error) {
 	var out []*Repo
 	uri := fmt.Sprintf(pathRepos, c.addr)
 	err := c.post(uri, nil, &out)
+	return out, err
+}
+
+// RepoListAll returns a paginated list of all repositories
+// stored in the database.
+func (c *client) RepoListAll(opts ListOptions) ([]*Repo, error) {
+	var out []*Repo
+	uri := fmt.Sprintf(pathReposAll, c.addr)
+	if opt := encodeListOptions(opts); opt != "" {
+		uri = uri + "?" + opt
+	}
+	err := c.get(uri, &out)
 	return out, err
 }
 
@@ -430,8 +456,8 @@ func (c *client) OrgSecretCreate(namespace string, in *Secret) (*Secret, error) 
 // OrgSecretUpdate updates a registry.
 func (c *client) OrgSecretUpdate(namespace string, in *Secret) (*Secret, error) {
 	out := new(Secret)
-	uri := fmt.Sprintf(pathSecretsNamespace, c.addr, namespace)
-	err := c.post(uri, in, out)
+	uri := fmt.Sprintf(pathSecretsName, c.addr, namespace, in.Name)
+	err := c.patch(uri, in, out)
 	return out, err
 }
 

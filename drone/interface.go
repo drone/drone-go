@@ -49,6 +49,9 @@ type Client interface {
 	// UserDelete deletes a user account.
 	UserDelete(login string) error
 
+	// Incomplete returns a list of incomplete builds.
+	Incomplete() ([]*Repo, error)
+
 	// Repo returns a repository by name.
 	Repo(namespace, name string) (*Repo, error)
 
@@ -59,6 +62,10 @@ type Client interface {
 	// RepoListSync returns a list of all repositories to which
 	// the user has explicit access in the host system.
 	RepoListSync() ([]*Repo, error)
+
+	// RepoListAll returns a list of all repositories in
+	// the database. This is only available to system admins.
+	RepoListAll(opts ListOptions) ([]*Repo, error)
 
 	// RepoEnable activates a repository.
 	RepoEnable(namespace, name string) (*Repo, error)
