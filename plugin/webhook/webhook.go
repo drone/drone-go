@@ -42,11 +42,12 @@ const (
 type (
 	// Request defines a webhook request.
 	Request struct {
-		Event  string       `json:"event"`
-		Action string       `json:"action"`
-		User   *drone.User  `json:"user,omitempty"`
-		Repo   *drone.Repo  `json:"repo,omitempty"`
-		Build  *drone.Build `json:"build,omitempty"`
+		Event  string        `json:"event"`
+		Action string        `json:"action"`
+		User   *drone.User   `json:"user,omitempty"`
+		Repo   *drone.Repo   `json:"repo,omitempty"`
+		Build  *drone.Build  `json:"build,omitempty"`
+		System *drone.System `json:"system,omitempty"`
 	}
 
 	// Plugin responds to a webhook request.
