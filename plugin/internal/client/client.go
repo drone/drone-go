@@ -22,6 +22,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -119,7 +120,12 @@ func (s *Client) Do(in, out interface{}) error {
 
 	res, err := s.client().Do(req)
 	if res != nil && res.Body != nil {
-		defer res.Body.Close()
+		defer func() {
+			// drain the response body so we can reuse
+			// this connection.
+			io.Copy(ioutil.Discard, io.LimitReader(res.Body, 4096))
+			res.Body.Close()
+		}()
 	}
 	if err != nil {
 		return err
