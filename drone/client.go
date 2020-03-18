@@ -275,6 +275,24 @@ func (c *client) BuildList(owner, name string, opts ListOptions) ([]*Build, erro
 	return out, err
 }
 
+// BuildCreate creates a new build by branch or commit.
+func (c *client) BuildCreate(owner, name, commit, branch string) (*Build, error) {
+	out := new(Build)
+	val := url.Values{}
+	if commit != "" {
+		val.Set("commit", commit)
+	}
+	if branch != "" {
+		val.Set("branch", branch)
+	}
+	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name, val.Encode())
+
+	fmt.Println(uri)
+
+	err := c.post(uri, nil, out)
+	return out, err
+}
+
 // BuildRestart re-starts a stopped build.
 func (c *client) BuildRestart(owner, name string, build int, params map[string]string) (*Build, error) {
 	out := new(Build)
