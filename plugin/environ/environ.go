@@ -23,6 +23,9 @@ import (
 // V1 is version 1 of the env API
 const V1 = "application/vnd.drone.env.v1+json"
 
+// V2 is version 2 of the env API
+const V2 = "application/vnd.drone.env.v2+json"
+
 type (
 	// Request defines a environment request.
 	Request struct {
@@ -30,8 +33,15 @@ type (
 		Build drone.Build `json:"build,omitempty"`
 	}
 
+	// Variable defines an environment variable.
+	Variable struct {
+		Name string `json:"name,omitempty"`
+		Data string `json:"data,omitempty"`
+		Mask bool   `json:"mask,omitempty"`
+	}
+
 	// Plugin responds to a registry request.
 	Plugin interface {
-		List(context.Context, *Request) (map[string]string, error)
+		List(context.Context, *Request) ([]*Variable, error)
 	}
 )

@@ -14,27 +14,12 @@
 
 package environ
 
-import (
-	"context"
-
-	"github.com/drone/drone-go/plugin/internal/client"
-)
-
-// Client returns a new plugin client.
-func Client(endpoint, secret string, skipverify bool) Plugin {
-	client := client.New(endpoint, secret, skipverify)
-	client.Accept = V2
-	return &pluginClient{
-		client: client,
+// toMap is a helper function that converts a list of
+// variables to a map.
+func toMap(src []*Variable) map[string]string {
+	dst := map[string]string{}
+	for _, v := range src {
+		dst[v.Name] = v.Data
 	}
-}
-
-type pluginClient struct {
-	client *client.Client
-}
-
-func (c *pluginClient) List(ctx context.Context, in *Request) ([]*Variable, error) {
-	res := []*Variable{}
-	err := c.client.Do(in, &res)
-	return res, err
+	return dst
 }

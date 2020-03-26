@@ -15,26 +15,24 @@
 package environ
 
 import (
-	"context"
+	"testing"
 
-	"github.com/drone/drone-go/plugin/internal/client"
+	"github.com/google/go-cmp/cmp"
 )
 
-// Client returns a new plugin client.
-func Client(endpoint, secret string, skipverify bool) Plugin {
-	client := client.New(endpoint, secret, skipverify)
-	client.Accept = V2
-	return &pluginClient{
-		client: client,
+func TestToMap(t *testing.T) {
+	in := []*Variable{
+		{
+			Name: "foo",
+			Data: "bar",
+		},
 	}
-}
-
-type pluginClient struct {
-	client *client.Client
-}
-
-func (c *pluginClient) List(ctx context.Context, in *Request) ([]*Variable, error) {
-	res := []*Variable{}
-	err := c.client.Do(in, &res)
-	return res, err
+	want := map[string]string{
+		"foo": "bar",
+	}
+	got := toMap(in)
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Log(diff)
+		t.Errorf("Unexpected map value")
+	}
 }

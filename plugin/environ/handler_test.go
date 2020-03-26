@@ -26,6 +26,7 @@ import (
 	"github.com/drone/drone-go/plugin/internal/aesgcm"
 
 	"github.com/99designs/httpsignatures-go"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestHandler(t *testing.T) {
@@ -44,7 +45,7 @@ func TestHandler(t *testing.T) {
 		return
 	}
 
-	want := map[string]string{"PATH": "/bin:/usr/bin"}
+	want := []*Variable{{Name: "PATH", Data: "/bin:/usr/bin"}}
 	plugin := &mockPlugin{
 		res: want,
 		err: nil,
@@ -57,17 +58,16 @@ func TestHandler(t *testing.T) {
 		t.Errorf("Want status code %d, got %d", want, got)
 	}
 
-	resp := map[string]string{}
+	resp := []*Variable{}
 	json.Unmarshal(res.Body.Bytes(), &resp)
 	if got, want := len(resp), len(want); got != want {
 		t.Errorf("Want %d environment variables, got %d", want, got)
 		return
 	}
-	if _, ok := resp["PATH"]; !ok {
-		t.Errorf("Expect environment variable PATH")
-	}
-	if got, want := resp["PATH"], want["PATH"]; got != want {
-		t.Errorf("Want variable path %q, got %q", want, got)
+
+	if diff := cmp.Diff(want, resp); diff != "" {
+		t.Log(diff)
+		t.Errorf("Unexpected response")
 	}
 }
 
@@ -88,7 +88,7 @@ func TestHandler_Encrypted(t *testing.T) {
 		return
 	}
 
-	want := map[string]string{"PATH": "/bin:/usr/bin"}
+	want := []*Variable{{Name: "PATH", Data: "/bin:/usr/bin"}}
 	plugin := &mockPlugin{
 		res: want,
 		err: nil,
@@ -118,17 +118,15 @@ func TestHandler_Encrypted(t *testing.T) {
 		return
 	}
 
-	resp := map[string]string{}
+	resp := []*Variable{}
 	json.Unmarshal(body, &resp)
 	if got, want := len(resp), len(want); got != want {
 		t.Errorf("Want %d environment variables, got %d", want, got)
 		return
 	}
-	if _, ok := resp["PATH"]; !ok {
-		t.Errorf("Expect environment variable PATH")
-	}
-	if got, want := resp["PATH"], want["PATH"]; got != want {
-		t.Errorf("Want variable path %q, got %q", want, got)
+	if diff := cmp.Diff(want, resp); diff != "" {
+		t.Log(diff)
+		t.Errorf("Unexpected response")
 	}
 }
 
@@ -161,10 +159,10 @@ func TestHandler_InvalidSignature(t *testing.T) {
 }
 
 type mockPlugin struct {
-	res map[string]string
+	res []*Variable
 	err error
 }
 
-func (m *mockPlugin) List(ctx context.Context, req *Request) (map[string]string, error) {
+func (m *mockPlugin) List(ctx context.Context, req *Request) ([]*Variable, error) {
 	return m.res, m.err
 }

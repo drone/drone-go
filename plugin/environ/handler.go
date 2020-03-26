@@ -82,13 +82,20 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	auths, err := p.plugin.List(r.Context(), req)
+	res, err := p.plugin.List(r.Context(), req)
 	if err != nil {
 		p.logger.Debugf("environment: cannot list registries: %s", err)
 		http.Error(w, err.Error(), 404)
 		return
 	}
-	out, _ := json.Marshal(auths)
+
+	out, _ := json.Marshal(res)
+
+	// If the client is a legacy V1 format we convert the
+	// output from V2 output to V1 output.
+	if r.Header.Get("Accept") == V1 {
+		out, _ = json.Marshal(toMap(res))
+	}
 
 	// If the client can optionally accept an encrypted
 	// response, we encrypt the payload body using secretbox.
