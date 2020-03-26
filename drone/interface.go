@@ -96,6 +96,9 @@ type Client interface {
 	// the specified repository.
 	BuildList(namespace, name string, opts ListOptions) ([]*Build, error)
 
+	// BuildCreate creates a new build by branch or commit.
+	BuildCreate(owner, name, commit, branch string) (*Build, error)
+
 	// BuildRestart re-starts a build.
 	BuildRestart(namespace, name string, build int, params map[string]string) (*Build, error)
 
