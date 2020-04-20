@@ -2,6 +2,8 @@
 
 ```Go
 import (
+	"fmt"
+
 	"github.com/drone/drone-go/drone"
 	"golang.org/x/oauth2"
 )
