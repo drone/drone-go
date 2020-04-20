@@ -4,9 +4,10 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/drone/drone-go/drone"
 	"golang.org/x/oauth2"
-	"fmt"
 )
 
 const (
