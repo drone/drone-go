@@ -287,8 +287,6 @@ func (c *client) BuildCreate(owner, name, commit, branch string) (*Build, error)
 	}
 	uri := fmt.Sprintf(pathBuilds, c.addr, owner, name, val.Encode())
 
-	fmt.Println(uri)
-
 	err := c.post(uri, nil, out)
 	return out, err
 }
