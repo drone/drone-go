@@ -90,8 +90,8 @@ type Client struct {
 	SkipVerify bool
 }
 
-// DoUsingContext makes an http.Request to the target endpoint using the context provided.
-func (s *Client) DoUsingContext(ctx context.Context, in, out interface{}) error {
+// Do makes an http.Request to the target endpoint using the context provided.
+func (s *Client) Do(ctx context.Context, in, out interface{}) error {
 	data, err := json.Marshal(in)
 	if err != nil {
 		return err
@@ -173,15 +173,6 @@ func (s *Client) DoUsingContext(ctx context.Context, in, out interface{}) error 
 		return nil
 	}
 	return json.Unmarshal(body, out)
-}
-
-// Do makes an http.Request to the target endpoint using a context with a one minute timeout.
-func (s *Client) Do(in, out interface{}) error {
-	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, time.Minute)
-	defer cancel()
-
-	return s.DoUsingContext(ctx, in, out)
 }
 
 func (s *Client) client() *http.Client {

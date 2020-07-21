@@ -36,6 +36,6 @@ type pluginClient struct {
 
 func (c *pluginClient) List(ctx context.Context, in *Request) ([]*drone.Registry, error) {
 	res := []*drone.Registry{}
-	err := c.client.DoUsingContext(ctx, in, &res)
+	err := c.client.Do(ctx, in, &res)
 	return res, err
 }

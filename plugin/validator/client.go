@@ -34,5 +34,5 @@ type pluginClient struct {
 }
 
 func (c *pluginClient) Validate(ctx context.Context, in *Request) error {
-	return c.client.DoUsingContext(ctx, in, nil)
+	return c.client.Do(ctx, in, nil)
 }
