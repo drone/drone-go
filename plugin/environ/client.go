@@ -35,6 +35,6 @@ type pluginClient struct {
 
 func (c *pluginClient) List(ctx context.Context, in *Request) ([]*Variable, error) {
 	res := []*Variable{}
-	err := c.client.Do(in, &res)
+	err := c.client.DoUsingContext(ctx, in, &res)
 	return res, err
 }

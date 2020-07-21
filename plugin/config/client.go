@@ -36,6 +36,6 @@ type pluginClient struct {
 
 func (c *pluginClient) Find(ctx context.Context, in *Request) (*drone.Config, error) {
 	res := new(drone.Config)
-	err := c.client.Do(in, res)
+	err := c.client.DoUsingContext(ctx, in, res)
 	return res, err
 }

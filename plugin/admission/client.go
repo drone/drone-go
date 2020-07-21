@@ -36,6 +36,6 @@ type pluginClient struct {
 
 func (c *pluginClient) Admit(ctx context.Context, in *Request) (*drone.User, error) {
 	res := new(drone.User)
-	err := c.client.Do(in, res)
+	err := c.client.DoUsingContext(ctx, in, res)
 	return res, err
 }
