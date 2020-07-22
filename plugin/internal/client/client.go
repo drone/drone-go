@@ -29,7 +29,7 @@ import (
 
 	"github.com/drone/drone-go/plugin/internal/aesgcm"
 
-	"github.com/99designs/httpsignatures-go"
+	httpsignatures "github.com/99designs/httpsignatures-go"
 )
 
 // DefaultClient is the default http.Client.
@@ -90,12 +90,8 @@ type Client struct {
 	SkipVerify bool
 }
 
-// Do makes an http.Request to the target endpoint.
-func (s *Client) Do(in, out interface{}) error {
-	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, time.Minute)
-	defer cancel()
-
+// Do makes an http.Request to the target endpoint using the context provided.
+func (s *Client) Do(ctx context.Context, in, out interface{}) error {
 	data, err := json.Marshal(in)
 	if err != nil {
 		return err
