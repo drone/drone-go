@@ -21,12 +21,12 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
 
+	"github.com/drone/drone-go/drone"
 	"github.com/drone/drone-go/plugin/internal/aesgcm"
 
 	httpsignatures "github.com/99designs/httpsignatures-go"
@@ -133,18 +133,16 @@ func (s *Client) Do(ctx context.Context, in, out interface{}) error {
 	}
 
 	if res.StatusCode > 299 {
-		// if the response body includes an error message
-		// we should return the error string.
-		if len(body) != 0 {
-			return errors.New(
-				string(body),
-			)
-		}
+		err := new(drone.Error)
+		err.Code = res.StatusCode
+		err.Message = string(body)
+
 		// if the response body is empty we should return
 		// the default status code text.
-		return errors.New(
-			http.StatusText(res.StatusCode),
-		)
+		if len(body) == 0 {
+			err.Message = http.StatusText(res.StatusCode)
+		}
+		return err
 	}
 
 	// if the response body return no content we exit

@@ -14,38 +14,38 @@
 
 package validator
 
-// import (
-// 	"bytes"
-// 	"context"
-// 	"io/ioutil"
-// 	"net/http"
-// 	"testing"
-// )
+import (
+	"bytes"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"testing"
+)
 
-// var noContext = context.Background()
+var noContext = context.Background()
 
-// func TestErrSkip(t *testing.T) {
-// 	client := http.Client{}
-// 	client.Transport = roundTripFunc(func(r *http.Request) (*http.Response, error) {
-// 		buf := bytes.NewBuffer(nil)
-// 		buf.WriteString("skip")
-// 		return &http.Response{
-// 			Body:       ioutil.NopCloser(buf),
-// 			StatusCode: 498,
-// 		}, nil
-// 	})
+func TestErrSkip(t *testing.T) {
+	client := http.Client{}
+	client.Transport = roundTripFunc(func(r *http.Request) (*http.Response, error) {
+		buf := bytes.NewBuffer(nil)
+		buf.WriteString("skip")
+		return &http.Response{
+			Body:       ioutil.NopCloser(buf),
+			StatusCode: 498,
+		}, nil
+	})
 
-// 	plugin := Client("http://localhost", "top-secret", false)
-// 	plugin.(*pluginClient).client.Client = &client
+	plugin := Client("http://localhost", "top-secret", false)
+	plugin.(*pluginClient).client.Client = &client
 
-// 	err := plugin.Validate(noContext, &Request{})
-// 	if err != ErrSkip {
-// 		t.Errorf("Expect skip error, got %v", err)
-// 	}
-// }
+	err := plugin.Validate(noContext, &Request{})
+	if err != ErrSkip {
+		t.Errorf("Expect skip error, got %v", err)
+	}
+}
 
-// type roundTripFunc func(r *http.Request) (*http.Response, error)
+type roundTripFunc func(r *http.Request) (*http.Response, error)
 
-// func (s roundTripFunc) RoundTrip(r *http.Request) (*http.Response, error) {
-// 	return s(r)
-// }
+func (s roundTripFunc) RoundTrip(r *http.Request) (*http.Response, error) {
+	return s(r)
+}
