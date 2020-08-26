@@ -17,6 +17,7 @@ package validator
 import (
 	"context"
 
+	"github.com/drone/drone-go/drone"
 	"github.com/drone/drone-go/plugin/internal/client"
 )
 
@@ -34,5 +35,14 @@ type pluginClient struct {
 }
 
 func (c *pluginClient) Validate(ctx context.Context, in *Request) error {
-	return c.client.Do(in, nil)
+	err := c.client.Do(in, nil)
+	if xerr, ok := err.(*drone.Error); ok {
+		if xerr.Code == 498 {
+			return ErrSkip
+		}
+		if xerr.Code == 499 {
+			return ErrBlock
+		}
+	}
+	return err
 }

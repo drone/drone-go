@@ -16,12 +16,21 @@ package validator
 
 import (
 	"context"
+	"errors"
 
 	"github.com/drone/drone-go/drone"
 )
 
 // V1 is version 1 of the validator API
 const V1 = "application/vnd.drone.validate.v1+json"
+
+// ErrSkip is returned when the build should be skipped
+// instead of throwing an error.
+var ErrSkip = errors.New("skip")
+
+// ErrBlock is returned when the build should be blocked
+// instead of throwing an error.
+var ErrBlock = errors.New("block")
 
 type (
 	// Request defines a validator request.

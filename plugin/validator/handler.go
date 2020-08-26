@@ -90,6 +90,16 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err == ErrSkip {
+		w.WriteHeader(498)
+		return
+	}
+
+	if err == ErrBlock {
+		w.WriteHeader(499)
+		return
+	}
+
 	// The error should be converted to a drone.Error so that
 	// it can be marshaled to JSON.
 	if _, ok := err.(*drone.Error); !ok {

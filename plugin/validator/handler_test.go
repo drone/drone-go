@@ -98,6 +98,68 @@ func TestHandler_Error(t *testing.T) {
 	}
 }
 
+func TestHandler_ErrorSkip(t *testing.T) {
+	key := "xVKAGlWQiY3sOp8JVc0nbuNId3PNCgWh"
+
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(&Request{
+		Config: drone.Config{
+			Data: "{kind: pipeline, type: docker}",
+		},
+	})
+
+	res := httptest.NewRecorder()
+	req := httptest.NewRequest("GET", "/", buf)
+	req.Header.Add("Date", time.Now().UTC().Format(http.TimeFormat))
+
+	err := httpsignatures.DefaultSha256Signer.AuthRequest("hmac-key", key, req)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	err = ErrSkip
+	plugin := &mockPlugin{err: err}
+
+	handler := Handler(key, plugin, nil)
+	handler.ServeHTTP(res, req)
+
+	if got, want := res.Code, 498; got != want {
+		t.Errorf("Want status code %d, got %d", want, got)
+	}
+}
+
+func TestHandler_ErrorBlock(t *testing.T) {
+	key := "xVKAGlWQiY3sOp8JVc0nbuNId3PNCgWh"
+
+	buf := new(bytes.Buffer)
+	json.NewEncoder(buf).Encode(&Request{
+		Config: drone.Config{
+			Data: "{kind: pipeline, type: docker}",
+		},
+	})
+
+	res := httptest.NewRecorder()
+	req := httptest.NewRequest("GET", "/", buf)
+	req.Header.Add("Date", time.Now().UTC().Format(http.TimeFormat))
+
+	err := httpsignatures.DefaultSha256Signer.AuthRequest("hmac-key", key, req)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	err = ErrBlock
+	plugin := &mockPlugin{err: err}
+
+	handler := Handler(key, plugin, nil)
+	handler.ServeHTTP(res, req)
+
+	if got, want := res.Code, 499; got != want {
+		t.Errorf("Want status code %d, got %d", want, got)
+	}
+}
+
 func TestHandler_MissingSignature(t *testing.T) {
 	res := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", "/", nil)
