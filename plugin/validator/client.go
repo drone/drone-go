@@ -35,7 +35,7 @@ type pluginClient struct {
 }
 
 func (c *pluginClient) Validate(ctx context.Context, in *Request) error {
-	err := c.client.Do(in, nil)
+	err := c.client.Do(ctx, in, nil)
 	if xerr, ok := err.(*drone.Error); ok {
 		if xerr.Code == 498 {
 			return ErrSkip
