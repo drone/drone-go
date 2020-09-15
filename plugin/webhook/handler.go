@@ -57,19 +57,19 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	signature, err := httpsignatures.FromRequest(r)
 	if err != nil {
 		p.logger.Debugf("webhook: invalid or missing signature in http.Request")
-		http.Error(w, "Invalid or Missing Signature", 400)
+		http.Error(w, "Invalid or Missing Signature", http.StatusBadRequest)
 		return
 	}
 	if !signature.IsValid(p.secret, r) {
 		p.logger.Debugf("webhook: invalid signature in http.Request")
-		http.Error(w, "Invalid Signature", 400)
+		http.Error(w, "Invalid Signature", http.StatusBadRequest)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		p.logger.Debugf("webhook: cannot read http.Request body")
-		w.WriteHeader(400)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -77,14 +77,14 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, req)
 	if err != nil {
 		p.logger.Debugf("webhook: cannot unmarshal http.Request body")
-		http.Error(w, "Invalid Input", 400)
+		http.Error(w, "Invalid Input", http.StatusBadRequest)
 		return
 	}
 
 	err = p.plugin.Deliver(r.Context(), req)
 	if err != nil {
-		http.Error(w, err.Error(), 500)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else {
-		w.WriteHeader(204)
+		w.WriteHeader(http.StatusNoContent)
 	}
 }

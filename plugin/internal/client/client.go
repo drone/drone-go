@@ -148,7 +148,7 @@ func (s *Client) Do(ctx context.Context, in, out interface{}) error {
 	// if the response body return no content we exit
 	// immediately. We do not read or unmarshal the response
 	// and we do not return an error.
-	if res.StatusCode == 204 {
+	if res.StatusCode == http.StatusNoContent {
 		return nil
 	}
 
