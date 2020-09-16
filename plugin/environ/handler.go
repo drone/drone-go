@@ -58,19 +58,19 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	signature, err := httpsignatures.FromRequest(r)
 	if err != nil {
 		p.logger.Debugf("environment: invalid or missing signature in http.Request")
-		http.Error(w, "Invalid or Missing Signature", 400)
+		http.Error(w, "Invalid or Missing Signature", http.StatusBadRequest)
 		return
 	}
 	if !signature.IsValid(p.secret, r) {
 		p.logger.Debugf("environment: invalid signature in http.Request")
-		http.Error(w, "Invalid Signature", 400)
+		http.Error(w, "Invalid Signature", http.StatusBadRequest)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		p.logger.Debugf("environment: cannot read http.Request body")
-		w.WriteHeader(400)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -78,14 +78,14 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, req)
 	if err != nil {
 		p.logger.Debugf("environment: cannot unmarshal http.Request body")
-		http.Error(w, "Invalid Input", 400)
+		http.Error(w, "Invalid Input", http.StatusBadRequest)
 		return
 	}
 
 	res, err := p.plugin.List(r.Context(), req)
 	if err != nil {
 		p.logger.Debugf("environment: cannot list registries: %s", err)
-		http.Error(w, err.Error(), 404)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
@@ -103,13 +103,13 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		key, err := aesgcm.Key(p.secret)
 		if err != nil {
 			p.logger.Errorf("environment: invalid encryption key: %s", err)
-			http.Error(w, err.Error(), 500)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		out, err = aesgcm.Encrypt(out, key)
 		if err != nil {
 			p.logger.Errorf("environment: cannot encrypt message: %s", err)
-			http.Error(w, err.Error(), 500)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		w.Header().Set("Content-Encoding", "aesgcm")

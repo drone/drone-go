@@ -57,19 +57,19 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	signature, err := httpsignatures.FromRequest(r)
 	if err != nil {
 		p.logger.Debugf("config: invalid or missing signature in http.Request")
-		http.Error(w, "Invalid or Missing Signature", 400)
+		http.Error(w, "Invalid or Missing Signature", http.StatusBadRequest)
 		return
 	}
 	if !signature.IsValid(p.secret, r) {
 		p.logger.Debugf("config: invalid signature in http.Request")
-		http.Error(w, "Invalid Signature", 400)
+		http.Error(w, "Invalid Signature", http.StatusBadRequest)
 		return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		p.logger.Debugf("config: cannot read http.Request body")
-		w.WriteHeader(400)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -77,7 +77,7 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(body, req)
 	if err != nil {
 		p.logger.Debugf("config: cannot unmarshal http.Request body")
-		http.Error(w, "Invalid Input", 400)
+		http.Error(w, "Invalid Input", http.StatusBadRequest)
 		return
 	}
 
@@ -88,11 +88,11 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			req.Build.Target,
 			err,
 		)
-		http.Error(w, err.Error(), 404)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	if res == nil {
-		w.WriteHeader(204)
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 	out, _ := json.Marshal(res)
