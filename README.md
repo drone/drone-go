@@ -1,5 +1,7 @@
 # drone-go
 
+[![Build Status](https://cloud.drone.io/api/badges/drone/drone-go/status.svg)](https://cloud.drone.io/drone/drone-go)
+
 ```Go
 package main
 

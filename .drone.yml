@@ -1,9 +1,56 @@
-workspace:
-  base: /go
-  path: src/github.com/drone/drone-go
+---
+kind: pipeline
+type: docker
+name: testing
 
-pipeline:
-  build:
-    image: golang:1.6
-    commands:
-      - go test -v github.com/drone/drone-go/drone
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: environment
+  image: golang:1.15
+  commands:
+  - go version
+  - go env
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: staticcheck
+  image: golang:1.15
+  commands:
+  - go run honnef.co/go/tools/cmd/staticcheck ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: lint
+  image: golang:1.15
+  commands:
+  - go run golang.org/x/lint/golint -set_exit_status ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: vet
+  image: golang:1.15
+  commands:
+  - go vet ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+- name: test
+  image: golang:1.15
+  commands:
+  - go test -cover -v ./...
+  volumes:
+  - name: gopath
+    path: /go
+
+volumes:
+- name: gopath
+  temp: {}
+
+...
