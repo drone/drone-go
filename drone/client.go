@@ -276,9 +276,9 @@ func (c *client) BuildList(owner, name string, opts ListOptions) ([]*Build, erro
 }
 
 // BuildCreate creates a new build by branch or commit.
-func (c *client) BuildCreate(owner, name, commit, branch string) (*Build, error) {
+func (c *client) BuildCreate(owner, name, commit, branch string, params map[string]string) (*Build, error) {
 	out := new(Build)
-	val := url.Values{}
+	val := mapValues(params)
 	if commit != "" {
 		val.Set("commit", commit)
 	}
