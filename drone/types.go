@@ -85,7 +85,7 @@ type (
 		IgnorePulls *bool   `json:"ignore_pull_requests"`
 		CancelPulls *bool   `json:"auto_cancel_pull_requests"`
 		CancelPush  *bool   `json:"auto_cancel_pushes"`
-		Counter     *int    `json:"counter,omitempty"`
+		Counter     *int64  `json:"counter,omitempty"`
 	}
 
 	// Build defines a build object.
