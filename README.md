@@ -1,5 +1,7 @@
 # drone-go
 
+[![Go.dev](https://pkg.go.dev/badge/github.com/drone/drone-go)](https://pkg.go.dev/github.com/drone/drone-go?tab=doc)
+
 ```Go
 package main
 
