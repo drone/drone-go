@@ -521,6 +521,13 @@ func (c *client) CronDelete(owner, name, cron string) error {
 	return c.delete(uri)
 }
 
+// CronExec executes a cronjob.
+func (c *client) CronExec(owner, name, cron string) error {
+	uri := fmt.Sprintf(pathCron, c.addr, owner, name, cron)
+	err := c.post(uri, nil, nil)
+	return err
+}
+
 // Queue returns a list of enqueued builds.
 func (c *client) Queue() ([]*Stage, error) {
 	var out []*Stage

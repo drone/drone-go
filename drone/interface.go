@@ -175,6 +175,9 @@ type Client interface {
 	// CronUpdate enables a cronjob.
 	CronUpdate(owner, name, cron string, in *CronPatch) (*Cron, error)
 
+	// CronExec executes a cronjob.
+	CronExec(owner, name, cron string) error
+
 	// Sign signs the yaml file.
 	Sign(owner, name, file string) (string, error)
 
