@@ -63,6 +63,7 @@ type (
 		IgnorePulls bool   `json:"ignore_pull_requests"`
 		CancelPulls bool   `json:"auto_cancel_pull_requests"`
 		CancelPush  bool   `json:"auto_cancel_pushes"`
+		Throttle    int64  `json:"throttle"`
 		Timeout     int64  `json:"timeout"`
 		Counter     int64  `json:"counter"`
 		Synced      int64  `json:"synced"`
@@ -79,6 +80,7 @@ type (
 		Config      *string `json:"config_path,omitempty"`
 		Protected   *bool   `json:"protected,omitempty"`
 		Trusted     *bool   `json:"trusted,omitempty"`
+		Throttle    *int64  `json:"throttle,omitempty"`
 		Timeout     *int64  `json:"timeout,omitempty"`
 		Visibility  *string `json:"visibility,omitempty"`
 		IgnoreForks *bool   `json:"ignore_forks"`
@@ -145,6 +147,7 @@ type (
 		Variant   string            `json:"variant,omitempty"`
 		Kernel    string            `json:"kernel,omitempty"`
 		Limit     int               `json:"limit,omitempty"`
+		LimitRepo int               `json:"throttle,omitempty"`
 		Started   int64             `json:"started"`
 		Stopped   int64             `json:"stopped"`
 		Created   int64             `json:"created"`
