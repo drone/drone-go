@@ -202,6 +202,11 @@ type (
 		Fork bool `json:"fork,omitempty"`
 	}
 
+	Template struct {
+		Name string `json:"name,omitempty"`
+		Data []byte `json:"data,omitempty"`
+	}
+
 	// Server represents a server node.
 	Server struct {
 		ID       string `json:"id"`

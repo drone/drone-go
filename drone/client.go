@@ -67,6 +67,8 @@ const (
 	pathNodes            = "%s/api/nodes"
 	pathNode             = "%s/api/nodes/%s"
 	pathVersion          = "%s/version"
+	pathTemplates        = "%s/api/templates"
+	pathTemplateName     = "%s/api/templates/%s"
 )
 
 type client struct {
@@ -643,6 +645,44 @@ func (c *client) AutoscaleVersion() (*Version, error) {
 	uri := fmt.Sprintf(pathVersion, c.addr)
 	err := c.get(uri, out)
 	return out, err
+}
+
+// Template returns a template by name.
+func (c *client) Template(name string) (*Template, error) {
+	out := new(Template)
+	uri := fmt.Sprintf(pathTemplateName, c.addr, name)
+	err := c.get(uri, out)
+	return out, err
+}
+
+// TemplateList returns a list of all templates.
+func (c *client) TemplateList() ([]*Template, error) {
+	var out []*Template
+	uri := fmt.Sprintf(pathTemplates, c.addr)
+	err := c.get(uri, &out)
+	return out, err
+}
+
+// TemplateCreate creates a template.
+func (c *client) TemplateCreate(in *Template) (*Template, error) {
+	out := new(Template)
+	uri := fmt.Sprintf(pathTemplates, c.addr)
+	err := c.post(uri, in, out)
+	return out, err
+}
+
+// TemplateUpdate updates a template.
+func (c *client) TemplateUpdate(name string, in *Template) (*Template, error) {
+	out := new(Template)
+	uri := fmt.Sprintf(pathTemplateName, c.addr, name)
+	err := c.patch(uri, in, out)
+	return out, err
+}
+
+// TemplateDelete deletes a template.
+func (c *client) TemplateDelete(name string) error {
+	uri := fmt.Sprintf(pathTemplateName, c.addr, name)
+	return c.delete(uri)
 }
 
 //

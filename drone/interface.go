@@ -235,4 +235,19 @@ type Client interface {
 
 	// AutoscaleVersion returns the autoscaler version.
 	AutoscaleVersion() (*Version, error)
+
+	// Template returns a template by name.
+	Template(name string) (*Template, error)
+
+	// TemplateList returns a list of all templates.
+	TemplateList() ([]*Template, error)
+
+	// TemplateCreate creates a template.
+	TemplateCreate(template *Template) (*Template, error)
+
+	// TemplateUpdate updates template data.
+	TemplateUpdate(name string, template *Template) (*Template, error)
+
+	// TemplateDelete deletes a template.
+	TemplateDelete(name string) error
 }
