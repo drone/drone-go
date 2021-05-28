@@ -203,8 +203,9 @@ type (
 	}
 
 	Template struct {
-		Name string `json:"name,omitempty"`
-		Data []byte `json:"data,omitempty"`
+		Namespace string `json:"namespace,omitempty"`
+		Name      string `json:"name,omitempty"`
+		Data      string `json:"data,omitempty"`
 	}
 
 	// Server represents a server node.

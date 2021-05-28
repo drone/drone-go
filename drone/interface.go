@@ -237,17 +237,20 @@ type Client interface {
 	AutoscaleVersion() (*Version, error)
 
 	// Template returns a template by name.
-	Template(name string) (*Template, error)
+	Template(namespace string, name string) (*Template, error)
 
-	// TemplateList returns a list of all templates.
-	TemplateList() ([]*Template, error)
+	// TemplateListAll returns a list of all templates.
+	TemplateListAll() ([]*Template, error)
+
+	// TemplateList returns a list of all templates by namespace
+	TemplateList(namespace string) ([]*Template, error)
 
 	// TemplateCreate creates a template.
 	TemplateCreate(template *Template) (*Template, error)
 
 	// TemplateUpdate updates template data.
-	TemplateUpdate(name string, template *Template) (*Template, error)
+	TemplateUpdate(namespace string, name string, template *Template) (*Template, error)
 
 	// TemplateDelete deletes a template.
-	TemplateDelete(name string) error
+	TemplateDelete(namespace string, name string) error
 }
