@@ -27,46 +27,49 @@ import (
 )
 
 const (
-	pathSelf             = "%s/api/user"
-	pathFeed             = "%s/api/user/feed"
-	pathRepos            = "%s/api/user/repos"
-	pathIncomplete       = "%s/api/builds/incomplete"
-	pathReposAll         = "%s/api/repos"
-	pathRepo             = "%s/api/repos/%s/%s"
-	pathRepoMove         = "%s/api/repos/%s/%s/move?to=%s"
-	pathChown            = "%s/api/repos/%s/%s/chown"
-	pathRepair           = "%s/api/repos/%s/%s/repair"
-	pathBuilds           = "%s/api/repos/%s/%s/builds?%s"
-	pathBuild            = "%s/api/repos/%s/%s/builds/%v"
-	pathApprove          = "%s/api/repos/%s/%s/builds/%d/approve/%d"
-	pathDecline          = "%s/api/repos/%s/%s/builds/%d/decline/%d"
-	pathPromote          = "%s/api/repos/%s/%s/builds/%d/promote?%s"
-	pathRollback         = "%s/api/repos/%s/%s/builds/%d/rollback?%s"
-	pathJob              = "%s/api/repos/%s/%s/builds/%d/%d"
-	pathLog              = "%s/api/repos/%s/%s/builds/%d/logs/%d/%d"
-	pathRepoSecrets      = "%s/api/repos/%s/%s/secrets"
-	pathRepoSecret       = "%s/api/repos/%s/%s/secrets/%s"
-	pathRepoRegistries   = "%s/api/repos/%s/%s/registry"
-	pathRepoRegistry     = "%s/api/repos/%s/%s/registry/%s"
-	pathEncryptSecret    = "%s/api/repos/%s/%s/encrypt/secret"
-	pathEncryptRegistry  = "%s/api/repos/%s/%s/encrypt/registry"
-	pathSign             = "%s/api/repos/%s/%s/sign"
-	pathVerify           = "%s/api/repos/%s/%s/verify"
-	pathCrons            = "%s/api/repos/%s/%s/cron"
-	pathCron             = "%s/api/repos/%s/%s/cron/%s"
-	pathSecrets          = "%s/api/secrets"
-	pathSecretsNamespace = "%s/api/secrets/%s"
-	pathSecretsName      = "%s/api/secrets/%s/%s"
-	pathUsers            = "%s/api/users"
-	pathUser             = "%s/api/users/%s"
-	pathQueue            = "%s/api/queue"
-	pathServers          = "%s/api/servers"
-	pathServer           = "%s/api/servers/%s"
-	pathScalerPause      = "%s/api/pause"
-	pathScalerResume     = "%s/api/resume"
-	pathNodes            = "%s/api/nodes"
-	pathNode             = "%s/api/nodes/%s"
-	pathVersion          = "%s/version"
+	pathSelf              = "%s/api/user"
+	pathFeed              = "%s/api/user/feed"
+	pathRepos             = "%s/api/user/repos"
+	pathIncomplete        = "%s/api/builds/incomplete"
+	pathReposAll          = "%s/api/repos"
+	pathRepo              = "%s/api/repos/%s/%s"
+	pathRepoMove          = "%s/api/repos/%s/%s/move?to=%s"
+	pathChown             = "%s/api/repos/%s/%s/chown"
+	pathRepair            = "%s/api/repos/%s/%s/repair"
+	pathBuilds            = "%s/api/repos/%s/%s/builds?%s"
+	pathBuild             = "%s/api/repos/%s/%s/builds/%v"
+	pathApprove           = "%s/api/repos/%s/%s/builds/%d/approve/%d"
+	pathDecline           = "%s/api/repos/%s/%s/builds/%d/decline/%d"
+	pathPromote           = "%s/api/repos/%s/%s/builds/%d/promote?%s"
+	pathRollback          = "%s/api/repos/%s/%s/builds/%d/rollback?%s"
+	pathJob               = "%s/api/repos/%s/%s/builds/%d/%d"
+	pathLog               = "%s/api/repos/%s/%s/builds/%d/logs/%d/%d"
+	pathRepoSecrets       = "%s/api/repos/%s/%s/secrets"
+	pathRepoSecret        = "%s/api/repos/%s/%s/secrets/%s"
+	pathRepoRegistries    = "%s/api/repos/%s/%s/registry"
+	pathRepoRegistry      = "%s/api/repos/%s/%s/registry/%s"
+	pathEncryptSecret     = "%s/api/repos/%s/%s/encrypt/secret"
+	pathEncryptRegistry   = "%s/api/repos/%s/%s/encrypt/registry"
+	pathSign              = "%s/api/repos/%s/%s/sign"
+	pathVerify            = "%s/api/repos/%s/%s/verify"
+	pathCrons             = "%s/api/repos/%s/%s/cron"
+	pathCron              = "%s/api/repos/%s/%s/cron/%s"
+	pathSecrets           = "%s/api/secrets"
+	pathSecretsNamespace  = "%s/api/secrets/%s"
+	pathSecretsName       = "%s/api/secrets/%s/%s"
+	pathUsers             = "%s/api/users"
+	pathUser              = "%s/api/users/%s"
+	pathQueue             = "%s/api/queue"
+	pathServers           = "%s/api/servers"
+	pathServer            = "%s/api/servers/%s"
+	pathScalerPause       = "%s/api/pause"
+	pathScalerResume      = "%s/api/resume"
+	pathNodes             = "%s/api/nodes"
+	pathNode              = "%s/api/nodes/%s"
+	pathVersion           = "%s/version"
+	pathTemplates         = "%s/api/templates"
+	pathTemplateName      = "%s/api/templates/%s/%s"
+	pathTemplateNamespace = "%s/api/templates/%s"
 )
 
 type client struct {
@@ -643,6 +646,52 @@ func (c *client) AutoscaleVersion() (*Version, error) {
 	uri := fmt.Sprintf(pathVersion, c.addr)
 	err := c.get(uri, out)
 	return out, err
+}
+
+// Template returns a template by name.
+func (c *client) Template(namespace string, name string) (*Template, error) {
+	out := new(Template)
+	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
+	err := c.get(uri, out)
+	return out, err
+}
+
+// TemplateListAll returns a list of all templates.
+func (c *client) TemplateListAll() ([]*Template, error) {
+	var out []*Template
+	uri := fmt.Sprintf(pathTemplates, c.addr)
+	err := c.get(uri, &out)
+	return out, err
+}
+
+// TemplateList returns a list of all templates by namespace
+func (c *client) TemplateList(namespace string) ([]*Template, error) {
+	var out []*Template
+	uri := fmt.Sprintf(pathTemplateNamespace, c.addr, namespace)
+	err := c.get(uri, &out)
+	return out, err
+}
+
+// TemplateCreate creates a template.
+func (c *client) TemplateCreate(in *Template) (*Template, error) {
+	out := new(Template)
+	uri := fmt.Sprintf(pathTemplates, c.addr)
+	err := c.post(uri, in, out)
+	return out, err
+}
+
+// TemplateUpdate updates a template.
+func (c *client) TemplateUpdate(namespace string, name string, in *Template) (*Template, error) {
+	out := new(Template)
+	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
+	err := c.patch(uri, in, out)
+	return out, err
+}
+
+// TemplateDelete deletes a template.
+func (c *client) TemplateDelete(namespace string, name string) error {
+	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
+	return c.delete(uri)
 }
 
 //
