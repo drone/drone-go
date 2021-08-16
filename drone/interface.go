@@ -15,12 +15,13 @@
 package drone
 
 import (
+	"io"
 	"net/http"
 )
 
 // TODO(bradrydzewski) add repo + latest build endpoint
 // TODO(bradrydzewski) add queue endpoint
-// TDOO(bradrydzewski) add stats endpoint
+// TODO(bradrydzewski) add stats endpoint
 // TODO(bradrydzewski) add version endpoint
 
 // Client is used to communicate with a Drone server.
@@ -253,4 +254,19 @@ type Client interface {
 
 	// TemplateDelete deletes a template.
 	TemplateDelete(namespace string, name string) error
+
+	// FindCardByBuild gets all cards attached to a build number
+	FindCardByBuild(owner, name string, build int64) ([]*Card, error)
+
+	// Card gets a specific card
+	Card(owner, name string, build, stage, step int64) (*Card, error)
+
+	// CardData gets card data
+	CardData(owner, name string, build, stage, step int64) (*io.Reader, error)
+
+	// CardCreate create a new card
+	CardCreate(owner, name string, build, stage, step int64, card *CardInput) error
+
+	// CardDelete deletes a card
+	CardDelete(owner, name string, build, stage, step int64) error
 }

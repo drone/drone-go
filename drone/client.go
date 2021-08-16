@@ -70,6 +70,10 @@ const (
 	pathTemplates         = "%s/api/templates"
 	pathTemplateName      = "%s/api/templates/%s/%s"
 	pathTemplateNamespace = "%s/api/templates/%s"
+	pathCardsByBuild            = "%s/api/repos/%s/%s/cards/%v"
+	pathCard            = "%s/api/repos/%s/%s/cards/%v/%v/%v"
+	pathCreateCard            = "%s/api/internal/%s/%s/cards/%v/%v/%v"
+	pathCardData            = "%s/api/repos/%s/%s/cards/%v/%v/%v/json"
 )
 
 type client struct {
@@ -691,6 +695,43 @@ func (c *client) TemplateUpdate(namespace string, name string, in *Template) (*T
 // TemplateDelete deletes a template.
 func (c *client) TemplateDelete(namespace string, name string) error {
 	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
+	return c.delete(uri)
+}
+
+// FindCardByBuild gets all cards attached to a build number
+func (c *client) FindCardByBuild(owner, name string, build int64) ([]*Card, error) {
+	var out []*Card
+	uri := fmt.Sprintf(pathCardsByBuild, c.addr, owner, name, build)
+	err := c.get(uri, out)
+	return out, err
+}
+
+// Card gets a specific card
+func (c *client) Card(owner, name string, build, stage, step int64) (*Card, error) {
+	var out *Card
+	uri := fmt.Sprintf(pathCard, c.addr, owner, name, build, stage, step)
+	err := c.get(uri, out)
+	return out, err
+}
+
+// CardData gets card data
+func (c *client) CardData(owner, name string, build, stage, step int64) (*io.Reader, error) {
+	var out *io.Reader
+	uri := fmt.Sprintf(pathCardData, c.addr, owner, name, build, stage, step)
+	err := c.get(uri, out)
+	return out, err
+}
+
+func(c *client) CardCreate(owner, name string, build, stage, step int64, in *CardInput) error{
+	out := new(Card)
+	uri := fmt.Sprintf(pathCreateCard, c.addr, owner, name, build, stage, step)
+	err := c.post(uri, in, out)
+	return err
+}
+
+// CardDelete deletes a card
+func (c *client) CardDelete(owner, name string, build, stage, step int64,) error {
+	uri := fmt.Sprintf(pathCard, c.addr, owner, name, build, stage, step)
 	return c.delete(uri)
 }
 
