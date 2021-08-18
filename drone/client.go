@@ -673,9 +673,9 @@ func (c *client) TemplateList(namespace string) ([]*Template, error) {
 }
 
 // TemplateCreate creates a template.
-func (c *client) TemplateCreate(in *Template) (*Template, error) {
+func (c *client) TemplateCreate(namespace string, in *Template) (*Template, error) {
 	out := new(Template)
-	uri := fmt.Sprintf(pathTemplates, c.addr)
+	uri := fmt.Sprintf(pathTemplateNamespace, c.addr, namespace)
 	err := c.post(uri, in, out)
 	return out, err
 }

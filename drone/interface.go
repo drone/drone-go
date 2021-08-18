@@ -246,7 +246,7 @@ type Client interface {
 	TemplateList(namespace string) ([]*Template, error)
 
 	// TemplateCreate creates a template.
-	TemplateCreate(template *Template) (*Template, error)
+	TemplateCreate(namespace string, template *Template) (*Template, error)
 
 	// TemplateUpdate updates template data.
 	TemplateUpdate(namespace string, name string, template *Template) (*Template, error)

@@ -203,7 +203,6 @@ type (
 	}
 
 	Template struct {
-		Namespace string `json:"namespace,omitempty"`
 		Name      string `json:"name,omitempty"`
 		Data      string `json:"data,omitempty"`
 	}
