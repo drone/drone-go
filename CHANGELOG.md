@@ -4,10 +4,16 @@
 
 [Full Changelog](https://github.com/drone/drone-go/compare/v1.6.0...HEAD)
 
-**Merged pull requests:**
+**Implemented enhancements:**
+
+- Template type for supporting CLI commands [\#61](https://github.com/drone/drone-go/pull/61) ([eoinmcafee00](https://github.com/eoinmcafee00))
+
+**Fixed bugs:**
 
 - update create template api to access namespace as a param [\#62](https://github.com/drone/drone-go/pull/62) ([eoinmcafee00](https://github.com/eoinmcafee00))
-- Template type for supporting CLI commands [\#61](https://github.com/drone/drone-go/pull/61) ([eoinmcafee00](https://github.com/eoinmcafee00))
+
+**Merged pull requests:**
+
 - Add a vet step to drone config [\#57](https://github.com/drone/drone-go/pull/57) ([tboerger](https://github.com/tboerger))
 
 
