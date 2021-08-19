@@ -44,7 +44,7 @@ func main() {
 Run the changelog generator.
 
 ```BASH
-docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator -u drone -p drone -t <secret github token>
+docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator -u drone -p drone-go -t <secret github token>
 ```
 
 You can generate a token by logging into your GitHub account and going to Settings -> Personal access tokens.
