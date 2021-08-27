@@ -8,7 +8,7 @@
 
 - add new variable auto-cancel-running to repo struct [\#64](https://github.com/drone/drone-go/pull/64) ([eoinmcafee00](https://github.com/eoinmcafee00))
 
-## [v1.6.1](https://github.com/drone/drone-go/tree/v1.6.1) (2021-08-21)
+## [v1.6.1](https://github.com/drone/drone-go/tree/v1.6.1) (2021-08-19)
 
 [Full Changelog](https://github.com/drone/drone-go/compare/v1.6.0...v1.6.1)
 
