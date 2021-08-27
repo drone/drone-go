@@ -1,20 +1,12 @@
 # Changelog
 
-## [Unreleased](https://github.com/drone/drone-go/tree/HEAD)
+## [v1.6.2](https://github.com/drone/drone-go/tree/v1.6.2) (2021-08-27)
 
-[Full Changelog](https://github.com/drone/drone-go/compare/v1.6.0...HEAD)
+[Full Changelog](https://github.com/drone/drone-go/compare/v1.6.1...v1.6.2)
 
 **Implemented enhancements:**
 
-- Template type for supporting CLI commands [\#61](https://github.com/drone/drone-go/pull/61) ([eoinmcafee00](https://github.com/eoinmcafee00))
-
-**Fixed bugs:**
-
-- update create template api to access namespace as a param [\#62](https://github.com/drone/drone-go/pull/62) ([eoinmcafee00](https://github.com/eoinmcafee00))
-
-**Merged pull requests:**
-
-- Add a vet step to drone config [\#57](https://github.com/drone/drone-go/pull/57) ([tboerger](https://github.com/tboerger))
+- add new variable auto-cancel-running to repo struct [\#64](https://github.com/drone/drone-go/pull/64) ([eoinmcafee00](https://github.com/eoinmcafee00))
 
 
 
