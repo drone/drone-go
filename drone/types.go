@@ -76,6 +76,35 @@ type (
 		Build         Build  `json:"build,omitempty"`
 	}
 
+	RepoBuildStage struct {
+		RepoNamespace     string `json:"repo_namespace"`
+		RepoName          string `json:"repo_name"`
+		RepoSlug          string `json:"repo_slug"`
+		BuildNumber       int64  `json:"build_number"`
+		BuildAuthor       string `json:"build_author"`
+		BuildAuthorName   string `json:"build_author_name"`
+		BuildAuthorEmail  string `json:"build_author_email"`
+		BuildAuthorAvatar string `json:"build_author_avatar"`
+		BuildSender       string `json:"build_sender"`
+		BuildStarted      int64  `json:"build_started"`
+		BuildFinished     int64  `json:"build_finished"`
+		BuildCreated      int64  `json:"build_created"`
+		BuildUpdated      int64  `json:"build_updated"`
+		StageName         string `json:"stage_name"`
+		StageKind         string `json:"stage_kind"`
+		StageType         string `json:"stage_type"`
+		StageStatus       string `json:"stage_status"`
+		StageMachine      string `json:"stage_machine"`
+		StageOS           string `json:"stage_os"`
+		StageArch         string `json:"stage_arch"`
+		StageVariant      string `json:"stage_variant"`
+		StageKernel       string `json:"stage_kernel"`
+		StageLimit        string `json:"stage_limit"`
+		StageLimitRepo    string `json:"stage_limit_repo"`
+		StageStarted      int64  `json:"stage_started"`
+		StageStopped      int64  `json:"stage_stopped"`
+	}
+
 	// RepoPatch defines a repository patch request.
 	RepoPatch struct {
 		Config        *string `json:"config_path,omitempty"`

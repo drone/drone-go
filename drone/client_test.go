@@ -684,7 +684,6 @@ func TestLogsPurge(t *testing.T) {
 //
 // mock server and testdata.
 //
-
 func mockHandler(w http.ResponseWriter, r *http.Request) {
 	routes := []struct {
 		verb string
@@ -886,7 +885,7 @@ func mockHandler(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		w.WriteHeader(route.code)
-		w.Write(body)
+		_, _ = w.Write(body)
 		return
 	}
 	w.WriteHeader(404)

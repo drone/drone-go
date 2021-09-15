@@ -52,6 +52,9 @@ type Client interface {
 	// Incomplete returns a list of incomplete builds.
 	Incomplete() ([]*Repo, error)
 
+	// IncompleteV2 returns a list of builds/repos/stages that are running/pending.
+	IncompleteV2() ([]*RepoBuildStage, error)
+
 	// Repo returns a repository by name.
 	Repo(namespace, name string) (*Repo, error)
 
