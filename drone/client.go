@@ -70,10 +70,10 @@ const (
 	pathTemplates         = "%s/api/templates"
 	pathTemplateName      = "%s/api/templates/%s/%s"
 	pathTemplateNamespace = "%s/api/templates/%s"
-	pathCardsByBuild            = "%s/api/repos/%s/%s/cards/%v"
-	pathCard            = "%s/api/repos/%s/%s/cards/%v/%v/%v"
-	pathCreateCard            = "%s/api/internal/%s/%s/cards/%v/%v/%v"
-	pathCardData            = "%s/api/repos/%s/%s/cards/%v/%v/%v/json"
+	pathCardsByBuild      = "%s/api/repos/%s/%s/cards/%v"
+	pathCard              = "%s/api/repos/%s/%s/cards/%v/%v/%v"
+	pathCreateCard        = "%s/api/internal/%s/%s/cards/%v/%v/%v"
+	pathCardData          = "%s/api/repos/%s/%s/cards/%v/%v/%v/json"
 )
 
 type client struct {
@@ -722,7 +722,7 @@ func (c *client) CardData(owner, name string, build, stage, step int64) (*io.Rea
 	return out, err
 }
 
-func(c *client) CardCreate(owner, name string, build, stage, step int64, in *CardInput) error{
+func (c *client) CardCreate(owner, name string, build, stage, step int64, in *CardInput) error {
 	out := new(Card)
 	uri := fmt.Sprintf(pathCreateCard, c.addr, owner, name, build, stage, step)
 	err := c.post(uri, in, out)
@@ -730,7 +730,7 @@ func(c *client) CardCreate(owner, name string, build, stage, step int64, in *Car
 }
 
 // CardDelete deletes a card
-func (c *client) CardDelete(owner, name string, build, stage, step int64,) error {
+func (c *client) CardDelete(owner, name string, build, stage, step int64) error {
 	uri := fmt.Sprintf(pathCard, c.addr, owner, name, build, stage, step)
 	return c.delete(uri)
 }
