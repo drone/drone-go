@@ -715,8 +715,8 @@ func (c *client) Card(owner, name string, build, stage, step int64) (*Card, erro
 }
 
 // CardData gets card data
-func (c *client) CardData(owner, name string, build, stage, step int64) (*io.Reader, error) {
-	var out *io.Reader
+func (c *client) CardData(owner, name string, build, stage, step int64) (*io.ReadCloser, error) {
+	var out *io.ReadCloser
 	uri := fmt.Sprintf(pathCardData, c.addr, owner, name, build, stage, step)
 	err := c.get(uri, out)
 	return out, err
