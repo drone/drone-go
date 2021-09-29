@@ -31,6 +31,7 @@ const (
 	pathFeed              = "%s/api/user/feed"
 	pathRepos             = "%s/api/user/repos"
 	pathIncomplete        = "%s/api/builds/incomplete"
+	pathIncompleteV2      = "%s/api/builds/incomplete/v2"
 	pathReposAll          = "%s/api/repos"
 	pathRepo              = "%s/api/repos/%s/%s"
 	pathRepoMove          = "%s/api/repos/%s/%s/move?to=%s"
@@ -164,6 +165,14 @@ func (c *client) UserDelete(login string) error {
 func (c *client) Incomplete() ([]*Repo, error) {
 	var out []*Repo
 	uri := fmt.Sprintf(pathIncomplete, c.addr)
+	err := c.get(uri, &out)
+	return out, err
+}
+
+// IncompleteV2 returns a list of builds repos and any stages that are running/pending.
+func (c *client) IncompleteV2() ([]*RepoBuildStage, error) {
+	var out []*RepoBuildStage
+	uri := fmt.Sprintf(pathIncompleteV2, c.addr)
 	err := c.get(uri, &out)
 	return out, err
 }
