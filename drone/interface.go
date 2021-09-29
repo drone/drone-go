@@ -262,7 +262,7 @@ type Client interface {
 	Card(owner, name string, build, stage, step int64) (*Card, error)
 
 	// CardData gets card data
-	CardData(owner, name string, build, stage, step int64) (*io.Reader, error)
+	CardData(owner, name string, build, stage, step int64) (*io.ReadCloser, error)
 
 	// CardCreate create a new card
 	CardCreate(owner, name string, build, stage, step int64, card *CardInput) error
