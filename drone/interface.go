@@ -265,7 +265,7 @@ type Client interface {
 	CardData(owner, name string, build, stage, step int64) (*io.ReadCloser, error)
 
 	// CardCreate create a new card
-	CardCreate(step int64, card *CardInput) error
+	CardCreate(owner, name string, build, stage, step int64, card *CardInput) error
 
 	// CardDelete deletes a card
 	CardDelete(owner, name string, build, stage, step int64) error

@@ -71,7 +71,6 @@ const (
 	pathTemplateName      = "%s/api/templates/%s/%s"
 	pathTemplateNamespace = "%s/api/templates/%s"
 	pathCardsByBuild      = "%s/api/repos/%s/%s/cards/%v"
-	pathCreateCard        = "%s/rpc/v2/cards?stepNumber=%v"
 	pathCard              = "%s/api/repos/%s/%s/cards/%v/%v/%v"
 	pathCardData          = "%s/api/repos/%s/%s/cards/%v/%v/%v/json"
 )
@@ -722,9 +721,9 @@ func (c *client) CardData(owner, name string, build, stage, step int64) (*io.Rea
 	return out, err
 }
 
-func (c *client) CardCreate(step int64, in *CardInput) error {
+func (c *client) CardCreate(owner, name string, build, stage, step int64, in *CardInput) error {
 	out := new(Card)
-	uri := fmt.Sprintf(pathCreateCard, c.addr, step)
+	uri := fmt.Sprintf(pathCard, c.addr, owner, name, build, stage, step)
 	err := c.post(uri, in, out)
 	return err
 }
