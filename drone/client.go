@@ -28,13 +28,11 @@ import (
 
 const (
 	pathSelf              = "%s/api/user"
-	pathFeed              = "%s/api/user/feed"
 	pathRepos             = "%s/api/user/repos"
 	pathIncomplete        = "%s/api/builds/incomplete"
 	pathIncompleteV2      = "%s/api/builds/incomplete/v2"
 	pathReposAll          = "%s/api/repos"
 	pathRepo              = "%s/api/repos/%s/%s"
-	pathRepoMove          = "%s/api/repos/%s/%s/move?to=%s"
 	pathChown             = "%s/api/repos/%s/%s/chown"
 	pathRepair            = "%s/api/repos/%s/%s/repair"
 	pathBuilds            = "%s/api/repos/%s/%s/builds?%s"
@@ -43,14 +41,10 @@ const (
 	pathDecline           = "%s/api/repos/%s/%s/builds/%d/decline/%d"
 	pathPromote           = "%s/api/repos/%s/%s/builds/%d/promote?%s"
 	pathRollback          = "%s/api/repos/%s/%s/builds/%d/rollback?%s"
-	pathJob               = "%s/api/repos/%s/%s/builds/%d/%d"
 	pathLog               = "%s/api/repos/%s/%s/builds/%d/logs/%d/%d"
 	pathRepoSecrets       = "%s/api/repos/%s/%s/secrets"
 	pathRepoSecret        = "%s/api/repos/%s/%s/secrets/%s"
-	pathRepoRegistries    = "%s/api/repos/%s/%s/registry"
-	pathRepoRegistry      = "%s/api/repos/%s/%s/registry/%s"
 	pathEncryptSecret     = "%s/api/repos/%s/%s/encrypt/secret"
-	pathEncryptRegistry   = "%s/api/repos/%s/%s/encrypt/registry"
 	pathSign              = "%s/api/repos/%s/%s/sign"
 	pathVerify            = "%s/api/repos/%s/%s/verify"
 	pathCrons             = "%s/api/repos/%s/%s/cron"
@@ -178,7 +172,7 @@ func (c *client) IncompleteV2() ([]*RepoBuildStage, error) {
 }
 
 // Repo returns a repository by name.
-func (c *client) Repo(owner string, name string) (*Repo, error) {
+func (c *client) Repo(owner, name string) (*Repo, error) {
 	out := new(Repo)
 	uri := fmt.Sprintf(pathRepo, c.addr, owner, name)
 	err := c.get(uri, out)
@@ -271,7 +265,7 @@ func (c *client) Build(owner, name string, num int) (*Build, error) {
 func (c *client) BuildLast(owner, name, branch string) (*Build, error) {
 	out := new(Build)
 	uri := fmt.Sprintf(pathBuild, c.addr, owner, name, "latest")
-	if len(branch) != 0 {
+	if branch != "" {
 		uri += "?branch=" + branch
 	}
 	err := c.get(uri, out)
@@ -420,7 +414,7 @@ func (c *client) Secret(owner, name, secret string) (*Secret, error) {
 }
 
 // SecretList returns a list of all repository secrets.
-func (c *client) SecretList(owner string, name string) ([]*Secret, error) {
+func (c *client) SecretList(owner, name string) ([]*Secret, error) {
 	var out []*Secret
 	uri := fmt.Sprintf(pathRepoSecrets, c.addr, owner, name)
 	err := c.get(uri, &out)
@@ -504,7 +498,7 @@ func (c *client) Cron(owner, name, cron string) (*Cron, error) {
 }
 
 // CronList returns a list of all repository cronjobs.
-func (c *client) CronList(owner string, name string) ([]*Cron, error) {
+func (c *client) CronList(owner, name string) ([]*Cron, error) {
 	var out []*Cron
 	uri := fmt.Sprintf(pathCrons, c.addr, owner, name)
 	err := c.get(uri, &out)
@@ -519,7 +513,7 @@ func (c *client) CronCreate(owner, name string, in *Cron) (*Cron, error) {
 	return out, err
 }
 
-// CronDisable disables a cronjob.
+// CronUpdate disables a cronjob.
 func (c *client) CronUpdate(owner, name, cron string, in *CronPatch) (*Cron, error) {
 	out := new(Cron)
 	uri := fmt.Sprintf(pathCron, c.addr, owner, name, cron)
@@ -632,7 +626,7 @@ func (c *client) ServerCreate() (*Server, error) {
 func (c *client) ServerDelete(name string, force bool) error {
 	uri := fmt.Sprintf(pathServer, c.addr, name)
 	if force {
-		uri = uri + "?force=true"
+		uri += "?force=true"
 	}
 	return c.delete(uri)
 }
@@ -658,7 +652,7 @@ func (c *client) AutoscaleVersion() (*Version, error) {
 }
 
 // Template returns a template by name.
-func (c *client) Template(namespace string, name string) (*Template, error) {
+func (c *client) Template(namespace, name string) (*Template, error) {
 	out := new(Template)
 	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
 	err := c.get(uri, out)
@@ -690,7 +684,7 @@ func (c *client) TemplateCreate(namespace string, in *Template) (*Template, erro
 }
 
 // TemplateUpdate updates a template.
-func (c *client) TemplateUpdate(namespace string, name string, in *Template) (*Template, error) {
+func (c *client) TemplateUpdate(namespace, name string, in *Template) (*Template, error) {
 	out := new(Template)
 	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
 	err := c.patch(uri, in, out)
@@ -698,7 +692,7 @@ func (c *client) TemplateUpdate(namespace string, name string, in *Template) (*T
 }
 
 // TemplateDelete deletes a template.
-func (c *client) TemplateDelete(namespace string, name string) error {
+func (c *client) TemplateDelete(namespace, name string) error {
 	uri := fmt.Sprintf(pathTemplateName, c.addr, namespace, name)
 	return c.delete(uri)
 }

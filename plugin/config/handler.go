@@ -97,5 +97,5 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	out, _ := json.Marshal(res)
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(out)
+	_, _ = w.Write(out)
 }
