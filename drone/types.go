@@ -14,6 +14,13 @@
 
 package drone
 
+import (
+	"database/sql"
+	"encoding/json"
+
+	"github.com/jmoiron/sqlx/types"
+)
+
 type (
 	// User represents a user account.
 	User struct {
@@ -379,6 +386,60 @@ type Error struct {
 	Message string `json:"message"`
 }
 
+type NullStep struct {
+	ID        sql.NullInt64
+	StageID   sql.NullInt64
+	Number    sql.NullInt64
+	Name      sql.NullString
+	Status    sql.NullString
+	Error     sql.NullString
+	ErrIgnore sql.NullBool
+	ExitCode  sql.NullInt64
+	Started   sql.NullInt64
+	Stopped   sql.NullInt64
+	Version   sql.NullInt64
+	DependsOn types.JSONText
+	Image     sql.NullString
+	Detached  sql.NullBool
+}
+
+func (s *NullStep) Value() *Step {
+	var dependsOn []string
+	json.Unmarshal(s.DependsOn, &dependsOn)
+
+	step := &Step{
+		ID:        s.ID.Int64,
+		StageID:   s.StageID.Int64,
+		Number:    int(s.Number.Int64),
+		Name:      s.Name.String,
+		Status:    s.Status.String,
+		Error:     s.Error.String,
+		ErrIgnore: s.ErrIgnore.Bool,
+		ExitCode:  int(s.ExitCode.Int64),
+		Started:   s.Started.Int64,
+		Stopped:   s.Stopped.Int64,
+		Version:   s.Version.Int64,
+		DependsOn: dependsOn,
+		Image:     s.Image.String,
+		Detached:  s.Detached.Bool,
+	}
+
+	return step
+}
+
 func (e *Error) Error() string {
 	return e.Message
+}
+
+// IsDone returns true if the step has a completed state.
+func (s *Step) IsDone() bool {
+	switch s.Status {
+	case StatusWaiting,
+		StatusPending,
+		StatusRunning,
+		StatusBlocked:
+		return false
+	default:
+		return true
+	}
 }
