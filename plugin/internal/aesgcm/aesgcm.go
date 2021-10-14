@@ -77,6 +77,6 @@ func Key(s string) (*[32]byte, error) {
 		return nil, errInvalidKeyLength
 	}
 	var key [32]byte
-	copy(key[:], []byte(s))
+	copy(key[:], s)
 	return &key, nil
 }

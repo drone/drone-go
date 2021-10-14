@@ -20,10 +20,14 @@ import (
 	"net/http"
 
 	"github.com/drone/drone-go/drone"
-
 	"github.com/drone/drone-go/plugin/logger"
 
 	"github.com/99designs/httpsignatures-go"
+)
+
+const (
+	httpStatusSkip  = 498
+	httpStatusBlock = 499
 )
 
 // Handler returns a http.Handler that accepts JSON-encoded
@@ -91,12 +95,12 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err == ErrSkip {
-		w.WriteHeader(498)
+		w.WriteHeader(httpStatusSkip)
 		return
 	}
 
 	if err == ErrBlock {
-		w.WriteHeader(499)
+		w.WriteHeader(httpStatusBlock)
 		return
 	}
 
@@ -111,5 +115,5 @@ func (p *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	out, _ := json.Marshal(err)
 	w.WriteHeader(http.StatusBadRequest)
-	w.Write(out)
+	_, _ = w.Write(out)
 }
