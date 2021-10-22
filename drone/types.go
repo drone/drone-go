@@ -14,6 +14,8 @@
 
 package drone
 
+import "encoding/json"
+
 type (
 	// User represents a user account.
 	User struct {
@@ -370,6 +372,11 @@ type (
 		Machine  string `json:"machine"`
 		Login    string `json:"login"`
 		Password string `json:"password"`
+	}
+
+	CardInput struct {
+		Schema string          `json:"schema"`
+		Data   json.RawMessage `json:"data"`
 	}
 )
 
