@@ -209,6 +209,7 @@ type (
 		DependsOn []string `json:"depends_on,omitempty"`
 		Image     string   `json:"image,omitempty"`
 		Detached  bool     `json:"detached,omitempty"`
+		Schema    string   `json:"schema,omitempty"`
 	}
 
 	// Registry represents a docker registry with credentials.
