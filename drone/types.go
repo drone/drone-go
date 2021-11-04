@@ -14,6 +14,8 @@
 
 package drone
 
+import "encoding/json"
+
 type (
 	// User represents a user account.
 	User struct {
@@ -207,6 +209,7 @@ type (
 		DependsOn []string `json:"depends_on,omitempty"`
 		Image     string   `json:"image,omitempty"`
 		Detached  bool     `json:"detached,omitempty"`
+		Schema    string   `json:"schema,omitempty"`
 	}
 
 	// Registry represents a docker registry with credentials.
@@ -370,6 +373,11 @@ type (
 		Machine  string `json:"machine"`
 		Login    string `json:"login"`
 		Password string `json:"password"`
+	}
+
+	CardInput struct {
+		Schema string          `json:"schema"`
+		Data   json.RawMessage `json:"data"`
 	}
 )
 
