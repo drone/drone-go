@@ -4,9 +4,12 @@
 
 [Full Changelog](https://github.com/drone/drone-go/compare/v1.7.0...v1.7.1)
 
+**Implemented enhancements:**
+
+- add new type for cardInput [\#70](https://github.com/drone/drone-go/pull/70) ([eoinmcafee00](https://github.com/eoinmcafee00))
+
 **Merged pull requests:**
 
-- Feature/dron 101 cards 2 [\#70](https://github.com/drone/drone-go/pull/70) ([eoinmcafee00](https://github.com/eoinmcafee00))
 - fix for various lint warnings [\#68](https://github.com/drone/drone-go/pull/68) ([marko-gacesa](https://github.com/marko-gacesa))
 
 ## [v1.7.0](https://github.com/drone/drone-go/tree/v1.7.0) (2021-10-04)
