@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.7.1](https://github.com/drone/drone-go/tree/v1.7.1) (2021-11-04)
+
+[Full Changelog](https://github.com/drone/drone-go/compare/v1.7.0...v1.7.1)
+
+**Merged pull requests:**
+
+- Feature/dron 101 cards 2 [\#70](https://github.com/drone/drone-go/pull/70) ([eoinmcafee00](https://github.com/eoinmcafee00))
+- fix for various lint warnings [\#68](https://github.com/drone/drone-go/pull/68) ([marko-gacesa](https://github.com/marko-gacesa))
+
 ## [v1.7.0](https://github.com/drone/drone-go/tree/v1.7.0) (2021-10-04)
 
 [Full Changelog](https://github.com/drone/drone-go/compare/v1.6.2...v1.7.0)
@@ -7,6 +16,10 @@
 **Implemented enhancements:**
 
 - \(DRON-124\) add ReposRunningStatus [\#65](https://github.com/drone/drone-go/pull/65) ([tphoney](https://github.com/tphoney))
+
+**Merged pull requests:**
+
+- \(maint\) release\_v1.7.0 prep [\#67](https://github.com/drone/drone-go/pull/67) ([tphoney](https://github.com/tphoney))
 
 ## [v1.6.2](https://github.com/drone/drone-go/tree/v1.6.2) (2021-08-27)
 
