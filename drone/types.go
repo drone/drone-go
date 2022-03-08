@@ -375,6 +375,13 @@ type (
 		Password string `json:"password"`
 	}
 
+	// Token provides an access and refresh token.
+	Token struct {
+		Access  string `json:"access"`
+		Refresh string `json:"refresh"`
+	}
+
+	// CardInput provides adaptive card schema and data.
 	CardInput struct {
 		Schema string          `json:"schema"`
 		Data   json.RawMessage `json:"data"`
