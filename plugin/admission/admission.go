@@ -32,8 +32,9 @@ const (
 type (
 	// Request defines an admission request.
 	Request struct {
-		Event string     `json:"event,omitempty"`
-		User  drone.User `json:"user,omitempty"`
+		Event string      `json:"event,omitempty"`
+		User  drone.User  `json:"user,omitempty"`
+		Token drone.Token `json:"token,omitempty"`
 	}
 
 	// Plugin responds to a admission request.

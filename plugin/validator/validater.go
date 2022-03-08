@@ -38,7 +38,7 @@ type (
 		Build  drone.Build  `json:"build,omitempty"`
 		Config drone.Config `json:"config,omitempty"`
 		Repo   drone.Repo   `json:"repo,omitempty"`
-		Token  drone.Token  `json:"token,omitempty"`
+		Token  drone.Token  `json:"token,omitempty"` // not implemented
 	}
 
 	// Plugin responds to a validator request.
