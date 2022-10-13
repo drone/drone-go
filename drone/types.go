@@ -195,21 +195,23 @@ type (
 
 	// Step represents an individual step in the stage.
 	Step struct {
-		ID        int64    `json:"id"`
-		StageID   int64    `json:"step_id"`
-		Number    int      `json:"number"`
-		Name      string   `json:"name"`
-		Status    string   `json:"status"`
-		Error     string   `json:"error,omitempty"`
-		ErrIgnore bool     `json:"errignore,omitempty"`
-		ExitCode  int      `json:"exit_code"`
-		Started   int64    `json:"started,omitempty"`
-		Stopped   int64    `json:"stopped,omitempty"`
-		Version   int64    `json:"version"`
-		DependsOn []string `json:"depends_on,omitempty"`
-		Image     string   `json:"image,omitempty"`
-		Detached  bool     `json:"detached,omitempty"`
-		Schema    string   `json:"schema,omitempty"`
+		ID              int64             `json:"id"`
+		StageID         int64             `json:"step_id"`
+		Number          int               `json:"number"`
+		Name            string            `json:"name"`
+		Status          string            `json:"status"`
+		Error           string            `json:"error,omitempty"`
+		ErrIgnore       bool              `json:"errignore,omitempty"`
+		ExitCode        int               `json:"exit_code"`
+		Started         int64             `json:"started,omitempty"`
+		Stopped         int64             `json:"stopped,omitempty"`
+		Version         int64             `json:"version"`
+		DependsOn       []string          `json:"depends_on,omitempty"`
+		Image           string            `json:"image,omitempty"`
+		Detached        bool              `json:"detached,omitempty"`
+		Schema          string            `json:"schema,omitempty"`
+		Outputs         []string          `json:"outputs,omitempty"`
+		OutputVariables map[string]string `json:"output_variables,omitempty"`
 	}
 
 	// Registry represents a docker registry with credentials.
