@@ -48,7 +48,7 @@ func Encrypt(plaintext []byte, key *[32]byte) (ciphertext []byte, err error) {
 	return gcm.Seal(nonce, nonce, plaintext, nil), nil
 }
 
-// Decrypt decrypts the raw, unencoded cihpertext with the provided key.
+// Decrypt decrypts the raw, unencoded ciphertext with the provided key.
 func Decrypt(ciphertext []byte, key *[32]byte) (plaintext []byte, err error) {
 	block, err := aes.NewCipher(key[:])
 	if err != nil {
