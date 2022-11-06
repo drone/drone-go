@@ -20,7 +20,7 @@ import (
 
 // TODO(bradrydzewski) add repo + latest build endpoint
 // TODO(bradrydzewski) add queue endpoint
-// TDOO(bradrydzewski) add stats endpoint
+// TODO(bradrydzewski) add stats endpoint
 // TODO(bradrydzewski) add version endpoint
 
 // Client is used to communicate with a Drone server.
@@ -85,7 +85,7 @@ type Client interface {
 	// RepoDisable disables a repository.
 	RepoDisable(namespace, name string) error
 
-	// RepoDelete permanetnly deletes a repository.
+	// RepoDelete permanently deletes a repository.
 	RepoDelete(namespace, name string) error
 
 	// Build returns a repository build by number.

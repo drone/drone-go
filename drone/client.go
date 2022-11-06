@@ -334,7 +334,7 @@ func (c *client) Promote(namespace, name string, build int, target string, param
 	return out, err
 }
 
-// Roolback reverts the target environment to an previous build.
+// Rollback reverts the target environment to an previous build.
 func (c *client) Rollback(namespace, name string, build int, target string, params map[string]string) (*Build, error) {
 	out := new(Build)
 	val := mapValues(params)
