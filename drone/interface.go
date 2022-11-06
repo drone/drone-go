@@ -85,7 +85,7 @@ type Client interface {
 	// RepoDisable disables a repository.
 	RepoDisable(namespace, name string) error
 
-	// RepoDelete permanetnly deletes a repository.
+	// RepoDelete permanently deletes a repository.
 	RepoDelete(namespace, name string) error
 
 	// Build returns a repository build by number.
