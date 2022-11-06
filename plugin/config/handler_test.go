@@ -46,7 +46,7 @@ func TestHandler(t *testing.T) {
 
 	want := &drone.Config{
 		Kind: "drone.v1.yaml",
-		Data: "pipeilne: []",
+		Data: "pipeline: []",
 	}
 	plugin := &mockPlugin{
 		res: want,
