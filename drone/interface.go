@@ -20,7 +20,7 @@ import (
 
 // TODO(bradrydzewski) add repo + latest build endpoint
 // TODO(bradrydzewski) add queue endpoint
-// TDOO(bradrydzewski) add stats endpoint
+// TODO(bradrydzewski) add stats endpoint
 // TODO(bradrydzewski) add version endpoint
 
 // Client is used to communicate with a Drone server.
