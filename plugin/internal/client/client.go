@@ -71,7 +71,7 @@ func New(endpoint, secret string, skipverify bool) *Client {
 			Transport: &http.Transport{
 				Proxy: http.ProxyFromEnvironment,
 				TLSClientConfig: &tls.Config{
-					InsecureSkipVerify: true,
+					InsecureSkipVerify: true, // user needs to explicitly enable this with skipverify=true
 				},
 			},
 		}
@@ -117,10 +117,9 @@ func (s *Client) Do(ctx context.Context, in, out interface{}) error {
 	res, err := s.client().Do(req)
 	if res != nil && res.Body != nil {
 		defer func() {
-			// drain the response body so we can reuse
-			// this connection.
-			io.Copy(ioutil.Discard, io.LimitReader(res.Body, 4096))
-			res.Body.Close()
+			// drain the response body so we can reuse this connection.
+			_, _ = io.Copy(ioutil.Discard, io.LimitReader(res.Body, 4096))
+			_ = res.Body.Close()
 		}()
 	}
 	if err != nil {
@@ -164,7 +163,7 @@ func (s *Client) Do(ctx context.Context, in, out interface{}) error {
 		if err != nil {
 			return err
 		}
-		body = []byte(plaintext)
+		body = plaintext
 	}
 
 	if out == nil {

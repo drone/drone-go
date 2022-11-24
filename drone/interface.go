@@ -52,6 +52,9 @@ type Client interface {
 	// Incomplete returns a list of incomplete builds.
 	Incomplete() ([]*Repo, error)
 
+	// IncompleteV2 returns a list of builds/repos/stages that are running/pending.
+	IncompleteV2() ([]*RepoBuildStage, error)
+
 	// Repo returns a repository by name.
 	Repo(namespace, name string) (*Repo, error)
 
@@ -235,4 +238,22 @@ type Client interface {
 
 	// AutoscaleVersion returns the autoscaler version.
 	AutoscaleVersion() (*Version, error)
+
+	// Template returns a template by name.
+	Template(namespace string, name string) (*Template, error)
+
+	// TemplateListAll returns a list of all templates.
+	TemplateListAll() ([]*Template, error)
+
+	// TemplateList returns a list of all templates by namespace
+	TemplateList(namespace string) ([]*Template, error)
+
+	// TemplateCreate creates a template.
+	TemplateCreate(namespace string, template *Template) (*Template, error)
+
+	// TemplateUpdate updates template data.
+	TemplateUpdate(namespace string, name string, template *Template) (*Template, error)
+
+	// TemplateDelete deletes a template.
+	TemplateDelete(namespace string, name string) error
 }

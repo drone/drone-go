@@ -14,6 +14,8 @@
 
 package drone
 
+import "encoding/json"
+
 type (
 	// User represents a user account.
 	User struct {
@@ -42,50 +44,83 @@ type (
 
 	// Repo represents a repository.
 	Repo struct {
-		ID          int64  `json:"id"`
-		UID         string `json:"uid"`
-		UserID      int64  `json:"user_id"`
-		Namespace   string `json:"namespace"`
-		Name        string `json:"name"`
-		Slug        string `json:"slug"`
-		SCM         string `json:"scm"`
-		HTTPURL     string `json:"git_http_url"`
-		SSHURL      string `json:"git_ssh_url"`
-		Link        string `json:"link"`
-		Branch      string `json:"default_branch"`
-		Private     bool   `json:"private"`
-		Visibility  string `json:"visibility"`
-		Active      bool   `json:"active"`
-		Config      string `json:"config_path"`
-		Trusted     bool   `json:"trusted"`
-		Protected   bool   `json:"protected"`
-		IgnoreForks bool   `json:"ignore_forks"`
-		IgnorePulls bool   `json:"ignore_pull_requests"`
-		CancelPulls bool   `json:"auto_cancel_pull_requests"`
-		CancelPush  bool   `json:"auto_cancel_pushes"`
-		Timeout     int64  `json:"timeout"`
-		Counter     int64  `json:"counter"`
-		Synced      int64  `json:"synced"`
-		Created     int64  `json:"created"`
-		Updated     int64  `json:"updated"`
-		Version     int64  `json:"version"`
-		Signer      string `json:"signer,omitempty"`
-		Secret      string `json:"secret,omitempty"`
-		Build       Build  `json:"build,omitempty"`
+		ID            int64  `json:"id"`
+		UID           string `json:"uid"`
+		UserID        int64  `json:"user_id"`
+		Namespace     string `json:"namespace"`
+		Name          string `json:"name"`
+		Slug          string `json:"slug"`
+		SCM           string `json:"scm"`
+		HTTPURL       string `json:"git_http_url"`
+		SSHURL        string `json:"git_ssh_url"`
+		Link          string `json:"link"`
+		Branch        string `json:"default_branch"`
+		Private       bool   `json:"private"`
+		Visibility    string `json:"visibility"`
+		Active        bool   `json:"active"`
+		Config        string `json:"config_path"`
+		Trusted       bool   `json:"trusted"`
+		Protected     bool   `json:"protected"`
+		IgnoreForks   bool   `json:"ignore_forks"`
+		IgnorePulls   bool   `json:"ignore_pull_requests"`
+		CancelPulls   bool   `json:"auto_cancel_pull_requests"`
+		CancelPush    bool   `json:"auto_cancel_pushes"`
+		CancelRunning bool   `json:"auto_cancel_running"`
+		Throttle      int64  `json:"throttle"`
+		Timeout       int64  `json:"timeout"`
+		Counter       int64  `json:"counter"`
+		Synced        int64  `json:"synced"`
+		Created       int64  `json:"created"`
+		Updated       int64  `json:"updated"`
+		Version       int64  `json:"version"`
+		Signer        string `json:"signer,omitempty"`
+		Secret        string `json:"secret,omitempty"`
+		Build         Build  `json:"build,omitempty"`
+	}
+
+	RepoBuildStage struct {
+		RepoNamespace     string `json:"repo_namespace"`
+		RepoName          string `json:"repo_name"`
+		RepoSlug          string `json:"repo_slug"`
+		BuildNumber       int64  `json:"build_number"`
+		BuildAuthor       string `json:"build_author"`
+		BuildAuthorName   string `json:"build_author_name"`
+		BuildAuthorEmail  string `json:"build_author_email"`
+		BuildAuthorAvatar string `json:"build_author_avatar"`
+		BuildSender       string `json:"build_sender"`
+		BuildStarted      int64  `json:"build_started"`
+		BuildFinished     int64  `json:"build_finished"`
+		BuildCreated      int64  `json:"build_created"`
+		BuildUpdated      int64  `json:"build_updated"`
+		StageName         string `json:"stage_name"`
+		StageKind         string `json:"stage_kind"`
+		StageType         string `json:"stage_type"`
+		StageStatus       string `json:"stage_status"`
+		StageMachine      string `json:"stage_machine"`
+		StageOS           string `json:"stage_os"`
+		StageArch         string `json:"stage_arch"`
+		StageVariant      string `json:"stage_variant"`
+		StageKernel       string `json:"stage_kernel"`
+		StageLimit        string `json:"stage_limit"`
+		StageLimitRepo    string `json:"stage_limit_repo"`
+		StageStarted      int64  `json:"stage_started"`
+		StageStopped      int64  `json:"stage_stopped"`
 	}
 
 	// RepoPatch defines a repository patch request.
 	RepoPatch struct {
-		Config      *string `json:"config_path,omitempty"`
-		Protected   *bool   `json:"protected,omitempty"`
-		Trusted     *bool   `json:"trusted,omitempty"`
-		Timeout     *int64  `json:"timeout,omitempty"`
-		Visibility  *string `json:"visibility,omitempty"`
-		IgnoreForks *bool   `json:"ignore_forks"`
-		IgnorePulls *bool   `json:"ignore_pull_requests"`
-		CancelPulls *bool   `json:"auto_cancel_pull_requests"`
-		CancelPush  *bool   `json:"auto_cancel_pushes"`
-		Counter     *int64  `json:"counter,omitempty"`
+		Config        *string `json:"config_path,omitempty"`
+		Protected     *bool   `json:"protected,omitempty"`
+		Trusted       *bool   `json:"trusted,omitempty"`
+		Throttle      *int64  `json:"throttle,omitempty"`
+		Timeout       *int64  `json:"timeout,omitempty"`
+		Visibility    *string `json:"visibility,omitempty"`
+		IgnoreForks   *bool   `json:"ignore_forks"`
+		IgnorePulls   *bool   `json:"ignore_pull_requests"`
+		CancelPulls   *bool   `json:"auto_cancel_pull_requests"`
+		CancelPush    *bool   `json:"auto_cancel_pushes"`
+		CancelRunning *bool   `json:"auto_cancel_running"`
+		Counter       *int64  `json:"counter,omitempty"`
 	}
 
 	// Build defines a build object.
@@ -145,6 +180,7 @@ type (
 		Variant   string            `json:"variant,omitempty"`
 		Kernel    string            `json:"kernel,omitempty"`
 		Limit     int               `json:"limit,omitempty"`
+		LimitRepo int               `json:"throttle,omitempty"`
 		Started   int64             `json:"started"`
 		Stopped   int64             `json:"stopped"`
 		Created   int64             `json:"created"`
@@ -159,17 +195,21 @@ type (
 
 	// Step represents an individual step in the stage.
 	Step struct {
-		ID        int64  `json:"id"`
-		StageID   int64  `json:"step_id"`
-		Number    int    `json:"number"`
-		Name      string `json:"name"`
-		Status    string `json:"status"`
-		Error     string `json:"error,omitempty"`
-		ErrIgnore bool   `json:"errignore,omitempty"`
-		ExitCode  int    `json:"exit_code"`
-		Started   int64  `json:"started,omitempty"`
-		Stopped   int64  `json:"stopped,omitempty"`
-		Version   int64  `json:"version"`
+		ID        int64    `json:"id"`
+		StageID   int64    `json:"step_id"`
+		Number    int      `json:"number"`
+		Name      string   `json:"name"`
+		Status    string   `json:"status"`
+		Error     string   `json:"error,omitempty"`
+		ErrIgnore bool     `json:"errignore,omitempty"`
+		ExitCode  int      `json:"exit_code"`
+		Started   int64    `json:"started,omitempty"`
+		Stopped   int64    `json:"stopped,omitempty"`
+		Version   int64    `json:"version"`
+		DependsOn []string `json:"depends_on,omitempty"`
+		Image     string   `json:"image,omitempty"`
+		Detached  bool     `json:"detached,omitempty"`
+		Schema    string   `json:"schema,omitempty"`
 	}
 
 	// Registry represents a docker registry with credentials.
@@ -194,6 +234,11 @@ type (
 		// Deprecated.
 		Pull bool `json:"pull,omitempty"`
 		Fork bool `json:"fork,omitempty"`
+	}
+
+	Template struct {
+		Name string `json:"name,omitempty"`
+		Data string `json:"data,omitempty"`
 	}
 
 	// Server represents a server node.
@@ -328,6 +373,18 @@ type (
 		Machine  string `json:"machine"`
 		Login    string `json:"login"`
 		Password string `json:"password"`
+	}
+
+	// Token provides an access and refresh token.
+	Token struct {
+		Access  string `json:"access"`
+		Refresh string `json:"refresh"`
+	}
+
+	// CardInput provides adaptive card schema and data.
+	CardInput struct {
+		Schema string          `json:"schema"`
+		Data   json.RawMessage `json:"data"`
 	}
 )
 

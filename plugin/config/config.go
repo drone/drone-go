@@ -28,6 +28,7 @@ type (
 	Request struct {
 		Build drone.Build `json:"build,omitempty"`
 		Repo  drone.Repo  `json:"repo,omitempty"`
+		Token drone.Token `json:"token,omitempty"`
 	}
 
 	// Plugin responds to a configuration request.
