@@ -266,7 +266,11 @@ func (c *client) BuildLast(owner, name, branch string) (*Build, error) {
 	out := new(Build)
 	uri := fmt.Sprintf(pathBuild, c.addr, owner, name, "latest")
 	if branch != "" {
-		uri += "?branch=" + branch
+		if strings.HasPrefix(branch, "refs/") {
+			uri += "?ref=" + branch
+		} else {
+			uri += "?branch=" + branch
+		}
 	}
 	err := c.get(uri, out)
 	return out, err
