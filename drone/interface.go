@@ -66,6 +66,10 @@ type Client interface {
 	// the user has explicit access in the host system.
 	RepoListSync() ([]*Repo, error)
 
+	// RepoListSyncAsync triggers an asynchronous repository sync and returns
+	// immediately without waiting for the sync to complete.
+	RepoListSyncAsync() error
+
 	// RepoListAll returns a list of all repositories in
 	// the database. This is only available to system admins.
 	RepoListAll(opts ListOptions) ([]*Repo, error)

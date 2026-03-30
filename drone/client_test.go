@@ -268,6 +268,52 @@ func TestRepoListSync(t *testing.T) {
 	}
 }
 
+// TestRepoListSyncAsync verifies that RepoListSyncAsync POSTs to the correct
+// endpoint with the async=true query parameter and returns nil on success.
+func TestRepoListSyncAsync(t *testing.T) {
+	var called bool
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			t.Errorf("expected POST, got %s", r.Method)
+		}
+		if r.URL.Path != "/api/user/repos" {
+			t.Errorf("expected path /api/user/repos, got %s", r.URL.Path)
+		}
+		if r.URL.Query().Get("async") != "true" {
+			t.Errorf("expected async=true query param, got %q", r.URL.RawQuery)
+		}
+		called = true
+		w.WriteHeader(http.StatusNoContent)
+	}))
+	defer ts.Close()
+
+	client := New(ts.URL)
+	err := client.RepoListSyncAsync()
+	if err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+	if !called {
+		t.Error("expected the async sync endpoint to be called")
+	}
+}
+
+// TestRepoListSyncAsyncEmpty204 explicitly validates that the client handles
+// an empty 204 No Content response without error and without attempting to
+// decode a body (which would produce an io.EOF error).
+func TestRepoListSyncAsyncEmpty204(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Write status only — no body, exactly as Drone server does for async sync.
+		w.WriteHeader(http.StatusNoContent)
+	}))
+	defer ts.Close()
+
+	client := New(ts.URL)
+	err := client.RepoListSyncAsync()
+	if err != nil {
+		t.Errorf("expected nil error for 204 No Content response, got: %v", err)
+	}
+}
+
 func TestRepoEnable(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(mockHandler))
 	defer ts.Close()
@@ -681,9 +727,7 @@ func TestLogsPurge(t *testing.T) {
 	}
 }
 
-//
 // mock server and testdata.
-//
 func mockHandler(w http.ResponseWriter, r *http.Request) {
 	routes := []struct {
 		verb string
