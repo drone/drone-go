@@ -1,6 +1,6 @@
 module github.com/drone/drone-go
 
-go 1.14
+go 1.26.10
 
 require (
 	github.com/99designs/httpsignatures-go v0.0.0-20170731043157-88528bf4ca7e
